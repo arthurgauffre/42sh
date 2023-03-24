@@ -14,6 +14,7 @@
     #define OK 0
     #define KO 84
 
+    int all_space_or_tab(char *str);
     void free_tab(char **tab);
     int my_tablen(char **tab);
     void prompt(void);

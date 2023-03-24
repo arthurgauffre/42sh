@@ -20,15 +20,6 @@ static int exit_shell(char *parser, int return_value)
     return return_value;
 }
 
-int all_space_or_tab(char *str)
-{
-    for (int i = 0; str[i] != '\0'; i++) {
-        if (str[i] != ' ' && str[i] != '\t')
-            return 1;
-    }
-    return 0;
-}
-
 int check_exit(char *parser)
 {
     if (my_strlen(parser) > 3 && my_strncmp(parser, "exit", 4) == 0 &&
@@ -49,6 +40,21 @@ int exit_shell_with_command(char *parser, int return_value)
     return return_value;
 }
 
+int loop_command(char *parser, int return_value, char ***env, int exit_value)
+{
+    char **tab = NULL;
+    if (!my_strlen(parser) == 0 && all_space_or_tab(parser) == 1 &&
+    exit_value != 2) {
+        tab = my_str_to_word_array(parser, ';');
+        for (int i = 0; tab[i] != NULL; i++)
+            return_value = check_and_launch_command(tab[i], env);
+        free(tab);
+        free(parser);
+    } else
+        free(parser);
+    return return_value;
+}
+
 int start_shell(char ***env)
 {
     int exit_value = 0;
@@ -64,11 +70,7 @@ int start_shell(char ***env)
         if ((exit_value = check_exit(parser)) == 1) {
             return exit_shell_with_command(parser, return_value);
         }
-        if (!my_strlen(parser) == 0 && all_space_or_tab(parser) == 1 &&
-        exit_value != 2)
-            return_value = check_and_launch_command(parser, env);
-        else
-            free(parser);
+        return_value = loop_command(parser, return_value, env, exit_value);
     }
     return return_value;
 }
