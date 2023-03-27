@@ -14,6 +14,15 @@
     #define OK 0
     #define KO 84
 
+    typedef struct sh_data_s {
+        char **tab_parser;
+        char ***env;
+        int **pipes;
+        int nb_pipes;
+        int nb_actual_command;
+    } sh_data_t;
+
+    void pipes_connexion(sh_data_t sh_data);
     int all_space_or_tab(char *str);
     void free_tab(char **tab);
     int my_tablen(char **tab);
@@ -26,8 +35,9 @@
     char *my_str_cut(char *str, int nb, int start_or_end);
     char *replace_tab_with_space(char *str);
     int check_and_launch_command(char *parser, char ***env);
-    int check_and_launch_mybuiltins(char **tab, char ***env);
-    int check_and_launch_binary(char **tab, char **env, char *parser);
+    int check_and_launch_mybuiltins(sh_data_t sh_data);
+    int check_and_launch_binary(sh_data_t sh_data, char **tab, char **env,
+    char *parser);
     char **modif_var_env(char **env, char *var_env, char *new_var_env_value);
     char *get_new_var_env_value(char *old_var_env, char *var_env,
     char *new_var_env_value);

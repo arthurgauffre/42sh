@@ -42,17 +42,17 @@ characters.\n");
     return 0;
 }
 
-int check_and_launch_mybuiltins(char **tab, char ***env)
+int check_and_launch_mybuiltins(sh_data_t sh_data)
 {
-    if (tab == NULL)
+    if (sh_data.tab_parser == NULL)
         return 2;
-    if (my_strcmp(tab[0], "cd") == 0)
-        return cd_builtin(tab, *env);
-    if (my_strcmp(tab[0], "unsetenv") == 0)
-        return unsetenv_builtin(tab, env);
-    if (my_strcmp(tab[0], "setenv") == 0)
-        return setenv_builtin(tab, env);
-    if (my_strcmp(tab[0], "env") == 0)
-        return env_builtin(tab, *env);
+    if (my_strcmp(sh_data.tab_parser[0], "cd") == 0)
+        return cd_builtin(sh_data.tab_parser, *sh_data.env);
+    if (my_strcmp(sh_data.tab_parser[0], "unsetenv") == 0)
+        return unsetenv_builtin(sh_data.tab_parser, sh_data.env);
+    if (my_strcmp(sh_data.tab_parser[0], "setenv") == 0)
+        return setenv_builtin(sh_data.tab_parser, sh_data.env);
+    if (my_strcmp(sh_data.tab_parser[0], "env") == 0)
+        return env_builtin(sh_data.tab_parser, *sh_data.env);
     return 2;
 }
