@@ -20,7 +20,7 @@
         char **tab_pipe;
         int **pipes;
         char *old_parser;
-        int nb_pipes;
+        int nb_commands;
         int nb_actual_command;
     } sh_data_t;
 

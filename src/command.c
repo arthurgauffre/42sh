@@ -16,7 +16,7 @@ void pipes_connexion(sh_data_t sh_data)
         dup2(sh_data.pipes[sh_data.nb_actual_command][1], STDOUT_FILENO);
         close(sh_data.pipes[sh_data.nb_actual_command][0]);
         close(sh_data.pipes[sh_data.nb_actual_command][1]);
-    } else if (sh_data.nb_actual_command == (sh_data.nb_pipes - 1)) {
+    } else if (sh_data.nb_actual_command == (sh_data.nb_commands - 1)) {
         dup2(sh_data.pipes[sh_data.nb_actual_command - 1][0], STDIN_FILENO);
         close(sh_data.pipes[sh_data.nb_actual_command - 1][0]);
         close(sh_data.pipes[sh_data.nb_actual_command - 1][1]);
@@ -33,7 +33,7 @@ void pipes_connexion(sh_data_t sh_data)
 int loop_pipe(char **tab_command, char *parser, sh_data_t sh_data, char **tab)
 {
     int return_value = 0;
-    for (int i = 0; i < sh_data.nb_pipes - 1; i++)
+    for (int i = 0; i < sh_data.nb_commands - 1; i++)
         sh_data.pipes[i] = malloc(sizeof(int) * 2);
     for (int i = 0; tab[i] != NULL; i++) {
         sh_data.tab_parser = my_str_to_word_array(tab[i], ' ');
@@ -60,9 +60,9 @@ char *old_parser)
         return KO;
     sh_data.tab_pipe = tab;
     sh_data.env = env;
-    sh_data.nb_pipes = my_tablen(tab);
-    sh_data.pipes = malloc(sizeof(int *) * sh_data.nb_pipes);
-    sh_data.pipes[sh_data.nb_pipes - 1] = NULL;
+    sh_data.nb_commands = my_tablen(tab);
+    sh_data.pipes = malloc(sizeof(int *) * sh_data.nb_commands);
+    sh_data.pipes[sh_data.nb_commands - 1] = NULL;
     sh_data.old_parser = old_parser;
     return loop_pipe(tab_command, parser, sh_data, tab);
 }

@@ -14,7 +14,7 @@
 static int env_child_exec(char **tab_command, sh_data_t sh_data, char **env,
 char **tab)
 {
-    if (sh_data.nb_pipes > 1) {
+    if (sh_data.nb_commands > 1) {
         pipes_connexion(sh_data);
     }
     if (my_tablen(tab) == 1) {
@@ -47,7 +47,7 @@ int env_builtin(char **tab_command, sh_data_t sh_data, char **tab, char **env)
     int wstatus = 0;
     if (tab == NULL)
         return 84;
-    if (sh_data.nb_actual_command < sh_data.nb_pipes - 1)
+    if (sh_data.nb_actual_command < sh_data.nb_commands - 1)
         pipe(sh_data.pipes[sh_data.nb_actual_command]);
     pid_t pid = fork();
     if (pid < 0)

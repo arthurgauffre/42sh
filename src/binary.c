@@ -69,13 +69,13 @@ int check_and_launch_binary(char **tab_command, sh_data_t sh_data, char **tab)
     int wstatus = 0;
     if (tab == NULL)
         return 84;
-    if (sh_data.nb_actual_command < sh_data.nb_pipes - 1)
+    if (sh_data.nb_actual_command < sh_data.nb_commands - 1)
         pipe(sh_data.pipes[sh_data.nb_actual_command]);
     pid_t pid = fork();
     if (pid < 0)
         return 84;
     if (pid == 0) {
-        if (sh_data.nb_pipes > 1) {
+        if (sh_data.nb_commands > 1) {
             pipes_connexion(sh_data);
         }
         return child_exec(tab_command, sh_data, tab);
