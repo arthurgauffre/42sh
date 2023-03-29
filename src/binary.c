@@ -26,24 +26,27 @@ int exec_with_path(char **tab, char **env, char *path)
     return 0;
 }
 
-int child_exec(char **tab_parser, char **tab, char **env, char *parser)
+static int child_exec(char **tab_command, sh_data_t sh_data, char **tab)
 {
-    char **path = my_str_to_word_array(get_inside_var_env(env, "PATH="), ':');
-    execve(tab[0], tab_parser, env);
+    char **path = my_str_to_word_array(
+        get_inside_var_env(*sh_data.env, "PATH="), ':');
+    execve(tab[0], sh_data.tab_parser, *sh_data.env);
     for (int i = 0; path[i] != NULL; i++) {
-        exec_with_path(tab_parser, env, path[i]);
+        exec_with_path(sh_data.tab_parser, *sh_data.env, path[i]);
     }
-    my_puterror(tab_parser[0]);
+    my_puterror(sh_data.tab_parser[0]);
     my_puterror(": Command not found.\n");
     free_tab(path);
     free_tab(tab);
-    free_tab(tab_parser);
-    free_tab(env);
-    free(parser);
+    free_tab(sh_data.tab_parser);
+    free_tab(tab_command);
+    free(sh_data.old_parser);
+    free_int_tab(sh_data.pipes);
+    free_tab(*sh_data.env);
     exit(1);
 }
 
-int parent_exec(pid_t pid, int wstatus, sh_data_t sh_data)
+static int parent_exec(pid_t pid, int wstatus, sh_data_t sh_data)
 {
     if (sh_data.nb_actual_command > 0) {
         close(sh_data.pipes[sh_data.nb_actual_command - 1][0]);
@@ -61,8 +64,7 @@ int parent_exec(pid_t pid, int wstatus, sh_data_t sh_data)
     return WEXITSTATUS(wstatus) + WTERMSIG(wstatus) + WCOREDUMP(wstatus);
 }
 
-int check_and_launch_binary(sh_data_t sh_data,
-char **tab, char **env, char *parser)
+int check_and_launch_binary(char **tab_command, sh_data_t sh_data, char **tab)
 {
     int wstatus = 0;
     if (tab == NULL)
@@ -76,7 +78,7 @@ char **tab, char **env, char *parser)
         if (sh_data.nb_pipes > 1) {
             pipes_connexion(sh_data);
         }
-        return child_exec(sh_data.tab_parser, tab, env, parser);
+        return child_exec(tab_command, sh_data, tab);
     } else {
         return parent_exec(pid, wstatus, sh_data);
     }

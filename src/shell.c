@@ -47,7 +47,7 @@ int loop_command(char *parser, int return_value, char ***env, int exit_value)
     exit_value != 2) {
         tab = my_str_to_word_array(parser, ';');
         for (int i = 0; tab[i] != NULL; i++)
-            return_value = check_and_launch_command(tab[i], env);
+            return_value = check_and_launch_command(tab, tab[i], env, parser);
         free(tab);
         free(parser);
     } else
