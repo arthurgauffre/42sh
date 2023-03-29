@@ -52,7 +52,11 @@ static int parent_exec(pid_t pid, int wstatus, sh_data_t sh_data)
         close(sh_data.pipes[sh_data.nb_actual_command - 1][0]);
         close(sh_data.pipes[sh_data.nb_actual_command - 1][1]);
     }
-    waitpid(pid, &wstatus, 0);
+    if (sh_data.nb_commands < 1 || sh_data.nb_actual_command ==
+    sh_data.nb_commands - 1)
+        waitpid(pid, &wstatus, WUNTRACED);
+    else
+        waitpid(pid, &wstatus, WNOHANG | WUNTRACED);
     if ((WTERMSIG(wstatus)) == 11)
         my_puterror("Segmentation fault");
     if ((WTERMSIG(wstatus)) == 8)
