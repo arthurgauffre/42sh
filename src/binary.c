@@ -9,8 +9,22 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 #include "header.h"
 #include "my.h"
+
+static int display_child_error(char * str)
+{
+    my_puterror(str);
+    int fd = open(str, O_RDONLY);
+    if (fd == -1)
+        write(2, ": Command not found.\n", 21);
+    else {
+        write(2, ": Permission denied.\n", 21);
+        close(fd);
+    }
+    return OK;
+}
 
 int exec_with_path(char **tab, char **env, char *path)
 {
@@ -34,8 +48,7 @@ static int child_exec(char **tab_command, sh_data_t sh_data, char **tab)
     for (int i = 0; path[i] != NULL; i++) {
         exec_with_path(sh_data.tab_parser, *sh_data.env, path[i]);
     }
-    my_puterror(sh_data.tab_parser[0]);
-    my_puterror(": Command not found.\n");
+    display_child_error(sh_data.tab_parser[0]);
     free_tab(path);
     free_tab(tab);
     free_tab(sh_data.tab_parser);
