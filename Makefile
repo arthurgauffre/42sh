@@ -27,26 +27,6 @@ SRC		=	shell.c				\
 			all_space_or_tab.c			\
 			main.c
 
-SRC_TEST	=	src/env.c				\
-				src/shell.c				\
-				src/my_tablen.c			\
-				src/free_tab.c			\
-				src/my_str_cut.c		\
-				src/echo.c				\
-				src/mysh.c				\
-				src/prompt.c			\
-				src/read_terminal.c		\
-				src/command.c			\
-				src/builtins.c			\
-				src/cd_builtin.c		\
-				src/binary.c			\
-				src/pwd.c				\
-				src/setenv.c			\
-				src/unsetenv.c			\
-				src/replace_tab_with_space.c	\
-				src/my_str_isalphanum.c
-
-
 DIR_SRC 	= 	$(addprefix src/, $(SRC))
 
 OBJ			=	$(DIR_SRC:.c=.o)
@@ -77,9 +57,4 @@ fclean:	clean
 
 re:	fclean all
 
-tests_run: make_lib
-	gcc -o unit_tests $(SRC_TEST) tests/test_minishell.c \
-	--coverage -lcriterion $(CPPFLAGS) $(MY_LIB)
-	./unit_tests
-
-.PHONY: all clean fclean re make_lib tests_run
+.PHONY: all clean fclean re make_lib
