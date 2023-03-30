@@ -44,7 +44,6 @@ int loop_pipe(char **tab_command, char *parser, sh_data_t sh_data, char **tab)
         free_tab(sh_data.tab_parser);
     }
     free_int_tab(sh_data.pipes);
-    free(parser);
     free_tab(tab);
     return return_value;
 }
