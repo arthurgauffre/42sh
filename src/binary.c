@@ -30,7 +30,7 @@ static int child_exec(char **tab_command, sh_data_t sh_data, char **tab)
 {
     char **path = my_str_to_word_array(
         get_inside_var_env(*sh_data.env, "PATH="), ':');
-    execve(tab[0], sh_data.tab_parser, *sh_data.env);
+    execve(sh_data.tab_parser[0], sh_data.tab_parser, *sh_data.env);
     for (int i = 0; path[i] != NULL; i++) {
         exec_with_path(sh_data.tab_parser, *sh_data.env, path[i]);
     }

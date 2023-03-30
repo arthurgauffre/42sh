@@ -53,5 +53,7 @@
     int my_str_isalphanum(char const *str);
     char *get_inside_var_env(char **env, char *var_env);
     char *get_pwd(void);
+    int invalid_null_function(char *parser);
+    int is_null_command(char *parser);
 
 #endif /* !HEADER */

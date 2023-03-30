@@ -22,6 +22,7 @@ SRC		=	shell.c				\
 			setenv.c			\
 			unsetenv.c			\
 			my_str_isalphanum.c	\
+			null_command.c		\
 			replace_tab_with_space.c	\
 			all_space_or_tab.c			\
 			main.c
