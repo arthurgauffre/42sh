@@ -53,7 +53,7 @@ OBJ			=	$(DIR_SRC:.c=.o)
 
 CFLAGS		=	-Wall -Wextra
 
-CPPFLAGS	=	-I./include/ -I lib/include/ -ggdb3
+CPPFLAGS	=	-I./include/ -I lib/include/
 
 NAME		=	mysh
 
