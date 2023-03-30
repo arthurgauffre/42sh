@@ -30,7 +30,7 @@ void pipes_connexion(sh_data_t sh_data)
     }
 }
 
-int loop_pipe(char **tab_command, char *parser, sh_data_t sh_data, char **tab)
+int loop_pipe(char **tab_command, sh_data_t sh_data, char **tab)
 {
     int return_value = 0;
     for (int i = 0; i < sh_data.nb_commands - 1; i++)
@@ -63,5 +63,5 @@ char *old_parser)
     sh_data.pipes = malloc(sizeof(int *) * sh_data.nb_commands);
     sh_data.pipes[sh_data.nb_commands - 1] = NULL;
     sh_data.old_parser = old_parser;
-    return loop_pipe(tab_command, parser, sh_data, tab);
+    return loop_pipe(tab_command, sh_data, tab);
 }
