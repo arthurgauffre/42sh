@@ -63,6 +63,8 @@ char ***env)
 {
     if (my_tablen(tab) == 1)
         return env_builtin(tab_command, sh_data, tab, *env);
+    if (sh_data.nb_commands != 1)
+        return 2;
     if (my_tablen(tab) > 3) {
         my_puterror("setenv: Too many arguments.\n");
         return 1;
@@ -83,9 +85,11 @@ int check_and_launch_mybuiltins(char **tab_command, sh_data_t sh_data)
 {
     if (sh_data.tab_parser == NULL)
         return 2;
-    if (my_strcmp(sh_data.tab_parser[0], "cd") == 0)
+    if (sh_data.nb_commands == 1 &&
+    my_strcmp(sh_data.tab_parser[0], "cd") == 0)
         return cd_builtin(sh_data.tab_parser, *sh_data.env);
-    if (my_strcmp(sh_data.tab_parser[0], "unsetenv") == 0)
+    if (sh_data.nb_commands == 1 &&
+    my_strcmp(sh_data.tab_parser[0], "unsetenv") == 0)
         return unsetenv_builtin(sh_data.tab_parser, sh_data.env);
     if (my_strcmp(sh_data.tab_parser[0], "setenv") == 0)
         return setenv_builtin(tab_command, sh_data, sh_data.tab_parser,
