@@ -35,7 +35,7 @@ CFLAGS		=	-Wall -Wextra
 
 CPPFLAGS	=	-I./include/ -I lib/include/
 
-NAME		=	mysh
+NAME		=	42sh
 
 MY_LIB		=	-L lib/my -lmy
 
