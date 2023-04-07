@@ -1,0 +1,26 @@
+name: Feature à ajouter
+description: Documentez l'ajout d'une feature au projet
+title: "[Feature]: Ajout de la feature [TITRE]"
+labels: ["feature"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Description de feature à ajouter
+  - type: input
+    id: title
+    attributes:
+      label: Nom de la feature
+      description: Quel est cette feature ?
+      placeholder: ex. Double pipes
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description de la feature
+      description: En quoi consiste cette feature ?
+      placeholder: ex. "Cette feature permet le parsing de double pipes lors de l'execution d'une commande."
+    validations:
+      required: true
