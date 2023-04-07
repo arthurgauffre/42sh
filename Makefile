@@ -5,26 +5,26 @@
 ## compil antman binary
 ##
 
-SRC		=	shell.c				\
-			my_tablen.c			\
-			free_tab.c			\
-			my_str_cut.c		\
-			env.c				\
-			echo.c				\
-			mysh.c				\
-			prompt.c			\
-			read_terminal.c		\
-			command.c			\
-			builtins.c			\
-			cd_builtin.c		\
-			binary.c			\
-			pwd.c				\
-			setenv.c			\
-			unsetenv.c			\
-			my_str_isalphanum.c	\
-			null_command.c		\
-			replace_tab_with_space.c	\
-			all_space_or_tab.c			\
+SRC		=	builtins/builtins.c		\
+			builtins/cd_builtin.c	\
+			builtins/env.c			\
+			builtins/pwd.c			\
+			builtins/unsetenv.c		\
+			builtins/setenv.c		\
+			exec/binary.c			\
+			exec/command.c			\
+			exec/null_command.c		\
+			shell/echo.c			\
+			shell/mysh.c			\
+			shell/prompt.c			\
+			shell/shell.c			\
+			str/all_space_or_tab.c			\
+			str/my_str_cut.c				\
+			str/my_str_isalphanum.c			\
+			str/read_terminal.c				\
+			str/replace_tab_with_space.c	\
+			tab/my_tablen.c			\
+			tab/free_tab.c			\
 			main.c
 
 DIR_SRC 	= 	$(addprefix src/, $(SRC))
