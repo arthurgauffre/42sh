@@ -23,20 +23,20 @@ A little intro about the installation.
 $ git clone git@github.com:EpitechPromo2027/B-PSU-200-BDX-2-1-minishell2-romain.giraud.git
 $ cd B-PSU-200-2-1-minishell2-romain.giraud
 $ make
-$ ./mysh
+$ ./42sh
 ```
 
 ## Overview
 ***
 Some examples of what the program should return, and all the differents interractions
 ```
-∼/B-PSU-101> ./mysh
+∼/B-PSU-101> ./42sh
 $> ./my_ls .
 dir my_ls ‘#test#’ test
 ```
 
 ```
-∼/B-PSU-101> ./mysh
+∼/B-PSU-101> ./42sh
 $> pwd
 /tmp
 $> cd test
@@ -45,7 +45,7 @@ $> pwd
 ```
 
 ```
-∼/B-PSU-101> ./mysh
+∼/B-PSU-101> ./42sh
 $> ls /
 /tmp
 $> cd test
@@ -54,11 +54,11 @@ $> pwd
 ```
 
 ```
-∼/B-PSU-101> echo “ls” | ./mysh
+∼/B-PSU-101> echo “ls” | ./42sh
 tata
 ∼/B-PSU-101> echo $?
 0
-∼/B-PSU-101> echo “ls nofile” | ./mysh
+∼/B-PSU-101> echo “ls nofile” | ./42sh
 ∼/B-PSU-101> echo $?
 2
 ```
