@@ -27,6 +27,7 @@ SRC 	= 	function/my_revstr.c	\
 		function/my_is_prime.c	\
 		function/my_strcpy.c	\
 		function/my_strstr.c	\
+		function/my_strdup.c	\
 		function/my_putchar.c	\
 		function/my_puterror.c	\
 		function/my_str_isalpha.c	\

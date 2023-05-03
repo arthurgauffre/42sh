@@ -67,11 +67,11 @@ int start_shell(char ***env)
             return exit_shell(parser, return_value);
         if (parser[my_strlen(parser) - 1] == '\n')
             parser = my_str_cut(parser, 1, 1);
-        if (is_null_command(parser) != 1 &&
+        if (is_null_command(parser) == 0 &&
         (exit_value = check_exit(parser)) == 1)
             return exit_shell_with_command(parser, return_value);
-        if (is_null_command(parser) == 1)
-            return_value = invalid_null_function(parser);
+        if ((return_value = is_null_command(parser)) != 0)
+            return_value = invalid_null_function(parser, return_value);
         else
             return_value = loop_command(parser, return_value, env, exit_value);
     }

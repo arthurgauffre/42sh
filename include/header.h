@@ -7,23 +7,16 @@
 
 #include <signal.h>
 #include <stdbool.h>
-
+#include "struct.h"
 
 #ifndef HEADER
     #define HEADER
     #define OK 0
     #define KO 84
 
-    typedef struct sh_data_s {
-        char **tab_parser;
-        char ***env;
-        char **tab_pipe;
-        int **pipes;
-        char *old_parser;
-        int nb_commands;
-        int nb_actual_command;
-    } sh_data_t;
-
+    sh_data_t init_pipe_data(char ***env, char **tab , char *old_parser,
+    sh_data_t sh_data);
+    void free_data(sh_data_t sh_data);
     void pipes_connexion(sh_data_t sh_data);
     int all_space_or_tab(char *str);
     void free_tab(char **tab);
@@ -31,6 +24,8 @@
     int my_tablen(char **tab);
     void prompt(void);
     int is_echo(void);
+    int nb_chevron(char *str);
+    char *load_fd_in_str(int fd);
     int mysh(char **my_env);
     int start_shell(char ***env);
     char **my_envcpy(char **env);
@@ -53,7 +48,11 @@
     int my_str_isalphanum(char const *str);
     char *get_inside_var_env(char **env, char *var_env);
     char *get_pwd(void);
-    int invalid_null_function(char *parser);
+    void display_exec_error(int wstatus);
+    int display_child_error(char *str);
+    void child_connection(sh_data_t sh_data);
+    int invalid_null_function(char *parser, int value);
     int is_null_command(char *parser);
+    void child_connection(sh_data_t sh_data);
 
 #endif /* !HEADER */

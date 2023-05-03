@@ -25,6 +25,7 @@
     int my_getnbr(char const *str);
     int my_str_isalpha(char const *str);
     void my_sort_int_array(int *tab, int size);
+    char *my_strdup(char const *src);
     int my_str_isnum(char const *str);
     int my_compute_power_rec(int nb, int power);
     int my_str_islower(char const *str);
