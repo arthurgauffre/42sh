@@ -25,13 +25,15 @@ SRC		=	builtins/builtins.c		\
 			str/replace_tab_with_space.c	\
 			tab/my_tablen.c			\
 			tab/free_tab.c			\
-			main.c
+			main.c \
+			str/line_editing.c		\
+			str/get_input.c
 
 DIR_SRC 	= 	$(addprefix src/, $(SRC))
 
 OBJ			=	$(DIR_SRC:.c=.o)
 
-CFLAGS		=	-Wall -Wextra
+CFLAGS		=	-Wall -Wextra -ggdb3
 
 CPPFLAGS	=	-I./include/ -I lib/include/
 
