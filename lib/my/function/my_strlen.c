@@ -5,13 +5,14 @@
 ** len str
 */
 
+#include <unistd.h>
+
 int my_strlen(char const *str)
 {
-    int taille;
+    int size = 0;
 
-    taille = 0;
-    while (str[taille] != '\0') {
-        taille += 1;
-    }
-    return (taille);
+    if (str == NULL)
+        return -1;
+    for (; str[size] != '\0'; size++);
+    return size;
 }

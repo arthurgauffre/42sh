@@ -14,13 +14,15 @@
     #define OK 0
     #define KO 84
 
-    sh_data_t init_pipe_data(char ***env, char **tab , char *old_parser,
-    sh_data_t sh_data);
+    sh_data_t *init_pipe_data(sh_data_t *data, char **tab);
     void free_data(sh_data_t sh_data);
-    void pipes_connexion(sh_data_t sh_data);
+    void pipes_connexion(sh_data_t data);
+    int loop_and(sh_data_t *data);
+    int loop_pipe(sh_data_t *data);
     int all_space_or_tab(char *str);
     void free_tab(char **tab);
     void free_int_tab(int **tab);
+    char **split_str_to_tab_with_wtr_separator(char* str, char* separator);
     int my_tablen(char **tab);
     void prompt(void);
     int is_echo(void);
@@ -33,15 +35,13 @@
     void free_child_env(char **tab_command, sh_data_t sh_data, char **tab);
     char *my_str_cut(char *str, int nb, int start_or_end);
     char *replace_tab_with_space(char *str);
-    int check_and_launch_command(char **tab_command, char *parser, char ***env,
-    char *old_parser);
-    int check_and_launch_mybuiltins(char **tab_command, sh_data_t sh_data);
-    int check_and_launch_binary(char **tab_command, sh_data_t sh_data,
-    char **tab);
+    int check_and_launch_command(sh_data_t *data);
+    int check_and_launch_mybuiltins(sh_data_t *data);
+    int check_and_launch_binary(sh_data_t *data);
     char **modif_var_env(char **env, char *var_env, char *new_var_env_value);
     char *get_new_var_env_value(char *old_var_env, char *var_env,
     char *new_var_env_value);
-    int cd_builtin(char **tab, char **env);
+    int cd_builtin(sh_data_t *data);
     int unsetenv_builtin(char **tab, char ***env);
     int add_var_env_with_value(char **tab, char ***env);
     int add_var_env_with_no_value(char **tab, char ***env);

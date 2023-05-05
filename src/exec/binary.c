@@ -29,19 +29,17 @@ int exec_with_path(char **tab, char **env, char *path)
     return 0;
 }
 
-static int child_exec(char **tab_command, sh_data_t sh_data, char **tab)
+static int child_exec(sh_data_t *data)
 {
     char **path = my_str_to_word_array(
-        get_inside_var_env(*sh_data.env, "PATH="), ':');
-    execve(sh_data.tab_parser[0], sh_data.tab_parser, *sh_data.env);
+    get_inside_var_env(*data->env, "PATH="), ':');
+    execve(data->tab_parser[0], data->tab_parser, *data->env);
     for (int i = 0; path[i] != NULL; i++) {
-        exec_with_path(sh_data.tab_parser, *sh_data.env, path[i]);
+        exec_with_path(data->tab_parser, *data->env, path[i]);
     }
-    display_child_error(sh_data.tab_parser[0]);
+    display_child_error(data->tab_parser[0]);
     free_tab(path);
-    free_tab(tab);
-    free_tab(tab_command);
-    free_data(sh_data);
+    free_data(*data);
     exit(1);
 }
 
@@ -79,23 +77,23 @@ static int parent_exec(pid_t pid, int wstatus, sh_data_t sh_data)
     return WEXITSTATUS(wstatus) + WTERMSIG(wstatus) + WCOREDUMP(wstatus);
 }
 
-int check_and_launch_binary(char **tab_command, sh_data_t sh_data, char **tab)
+int check_and_launch_binary(sh_data_t *data)
 {
     int wstatus = 0;
-    if (tab == NULL)
+    if (data->tab_parser == NULL)
         return 84;
-    if ((sh_data.nb_actual_command == sh_data.nb_commands - 1) &&
-    (sh_data.redirection.filename != NULL))
-        pipe(sh_data.redirection.pipe_redirection);
-    if (sh_data.nb_actual_command < sh_data.nb_commands - 1)
-        pipe(sh_data.pipes[sh_data.nb_actual_command]);
+    if ((data->nb_actual_command == data->nb_commands - 1) &&
+    (data->redirection.filename != NULL))
+        pipe(data->redirection.pipe_redirection);
+    if (data->nb_actual_command < data->nb_commands - 1)
+        pipe(data->pipes[data->nb_actual_command]);
     pid_t pid = fork();
     if (pid < 0)
         return 84;
     if (pid == 0) {
-        child_connection(sh_data);
-        return child_exec(tab_command, sh_data, tab);
+        child_connection(*data);
+        return child_exec(data);
     } else {
-        return parent_exec(pid, wstatus, sh_data);
+        return parent_exec(pid, wstatus, *data);
     }
 }

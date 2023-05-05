@@ -2,7 +2,7 @@
 ## EPITECH PROJECT, 2023
 ## Makefile
 ## File description:
-## compil antman binary
+## compil 42sh binary
 ##
 
 SRC		=	builtins/builtins.c		\
@@ -14,7 +14,8 @@ SRC		=	builtins/builtins.c		\
 			exec/binary.c			\
 			exec/child.c			\
 			exec/command.c			\
-			exec/display_error.c			\
+			exec/display_error.c	\
+			exec/loop_separators.c	\
 			exec/null_command.c		\
 			shell/shell.c			\
 			shell/echo.c			\
@@ -30,6 +31,7 @@ SRC		=	builtins/builtins.c		\
 			data/init_data.c		\
 			data/free_data.c		\
 			function/load_fd_in_str.c	\
+			function/spliter.c	\
 			main.c
 
 DIR_SRC 	= 	$(addprefix src/, $(SRC))
