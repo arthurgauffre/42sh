@@ -20,14 +20,15 @@ void print_prompt(char const *prompt_str)
     }
 }
 
-char *read_terminal(void)
+char *read_terminal(sh_data_t *data)
 {
-    if (isatty(STDIN_FILENO) == 1)
-        return get_command();
     char *line = NULL;
     size_t len = 0;
-    if (getline(&line, &len, stdin) == -1)
+    if (isatty(STDIN_FILENO) == 1) {
+        line = get_command();
+    } else if (getline(&line, &len, stdin) == -1)
         return NULL;
+    history(line, data->pwd);
     line = backslash_check_count(line);
     return line;
 }

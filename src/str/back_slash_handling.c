@@ -96,7 +96,6 @@ char *backslash_check_count(char *parser)
     int counter = 0;
     char *temp_parser = NULL;
     char *new_parser = NULL;
-    printf("counter = %d\n", counter);
     if ((temp_parser = backslash_check_end(parser)) != NULL) {
         counter = counter_fonc(temp_parser);
         new_parser = backslash_check(temp_parser, counter);

@@ -65,11 +65,10 @@ int start_shell(char ***env)
     while (1) {
         if (!is_echo())
             print_prompt("$> ");
-        if ((data.parser = read_terminal()) == NULL)
+        if ((data.parser = read_terminal(&data)) == NULL)
             return exit_shell(data);
         if (data.parser[my_strlen(data.parser) - 1] == '\n')
             data.parser = my_str_cut(data.parser, 1, 1);
-        history(data.parser, data.pwd);
         if (is_null_command(data.parser) == 0 &&
         (exit_value = check_exit(data.parser)) == 1)
             return exit_shell_with_command(data.parser, data.return_value);
