@@ -39,7 +39,7 @@ static char *backslash_check(char *parser, int counter)
     char *new_parser = malloc(sizeof(char) * counter + 1);
     memset(new_parser, '\0', counter + 1);
     int j = 0;
-    for (int i = 0; parser[i] != '\0' && j < counter; i++) { // Updated loop condition
+    for (int i = 0; parser[i] != '\0' && j < counter; i++) {
         if (parser[i] == '\\' && parser[i + 1] == '\\') {
             i = i + 2;
             new_parser[j] = react_whether_back_slash(parser, i);
