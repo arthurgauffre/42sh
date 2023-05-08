@@ -7,7 +7,18 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
+#include "header.h"
+
 char *get_command(void);
+
+void print_prompt(char const *prompt_str)
+{
+    if (!is_echo()) {
+        prompt(prompt_str);
+    }
+}
 
 char *read_terminal(void)
 {
@@ -17,5 +28,6 @@ char *read_terminal(void)
     size_t len = 0;
     if (getline(&line, &len, stdin) == -1)
         return NULL;
+    line = backslash_check_count(line);
     return line;
 }

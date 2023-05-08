@@ -24,6 +24,7 @@ SRC		=	builtins/builtins.c		\
 			str/all_space_or_tab.c			\
 			str/my_str_cut.c				\
 			str/my_str_isalphanum.c			\
+			str/back_slash_handling.c 		\
 			str/read_terminal.c				\
 			str/replace_tab_with_space.c	\
 			tab/my_tablen.c			\
@@ -65,5 +66,15 @@ fclean:	clean
 	rm -f $(NAME)
 
 re:	fclean all
+
+unit_tests : clean
+	gcc -o unit_tests $(SRC) test_stumper/test.c \
+	-I./include/ --coverage -lcriterion -g
+
+tests_run : unit_tests
+		./unit_tests
+
+run_tests : unit_tests
+		./unit_tests
 
 .PHONY: all clean fclean re make_lib

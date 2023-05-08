@@ -24,14 +24,16 @@
     void free_int_tab(int **tab);
     char **split_str_to_tab_with_wtr_separator(char* str, char* separator);
     int my_tablen(char **tab);
-    void prompt(void);
+    void prompt(char const *prompt_str);
     int is_echo(void);
     int nb_chevron(char *str);
     char *load_fd_in_str(int fd);
     int mysh(char **my_env);
     int start_shell(char ***env);
     char **my_envcpy(char **env);
+    void print_prompt(char const *prompt_str);
     char *read_terminal(void);
+    char *backslash_check_count(char *parser);
     void free_child_env(char **tab_command, sh_data_t sh_data, char **tab);
     char *my_str_cut(char *str, int nb, int start_or_end);
     char *replace_tab_with_space(char *str);
