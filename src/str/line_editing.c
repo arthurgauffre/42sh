@@ -58,13 +58,13 @@ char *add_char(char *command, int c, int *index)
     return command;
 }
 
-int print_line(char *command, int *index)
+int print_line(char *command, int *index, char *const prompt_char)
 {
     printf("\r");
     for (int i = 0; i < index[1] + 4; i++)
         printf(" ");
     printf("\r");
-    printf("$> ");
+    printf("%s", prompt_char);
     if (command != NULL)
         printf("%s", command);
     printf("\r");
@@ -83,7 +83,7 @@ char *command_null(void)
     return str;
 }
 
-char *get_command(void)
+char *get_command(char *const prompt_char)
 {
     int index[2];
     index[0] = -1;
@@ -96,7 +96,7 @@ char *get_command(void)
     char c;
     while (read(0, &c, 1) > 0 && c != 10) {
         command = get_ch(c, command, index);
-        print_line(command, index);
+        print_line(command, index, prompt_char);
         fflush(stdout);
     }
     if (command == NULL)

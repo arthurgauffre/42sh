@@ -60,10 +60,10 @@ static char *backslash_check_end(char *parser)
     char *new_parser = NULL;
     char *final_parser = NULL;
     size_t len = 0;
-    if (parser[strlen(parser) - 2] == '\\') {
-        print_prompt("? ");
-        if (getline(&new_parser, &len, stdin) == -1)
-            return NULL;
+    if (parser[strlen(parser) - 1] == '\\') {
+        if (isatty(STDIN_FILENO) == 1) {
+            new_parser = get_command("? ");
+        }
         parser[strcspn(parser, "\n")] = ' ';
         final_parser = malloc(sizeof(char) * strlen(parser) + \
 strlen(new_parser) + 1);
