@@ -10,7 +10,7 @@
 
 char *get_pwd(void)
 {
-    char *pwd_value = malloc(sizeof(char) * 1000);
-    pwd_value = getcwd(pwd_value, 999);
+    char *pwd_value = NULL;
+    pwd_value = getcwd(pwd_value, 0);
     return pwd_value;
 }

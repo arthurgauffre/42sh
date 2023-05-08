@@ -5,8 +5,9 @@
 ** shell
 */
 
-#include <unistd.h>
+#include <time.h>
 #include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include <sys/wait.h>
 #include "header.h"
@@ -60,6 +61,7 @@ int start_shell(char ***env)
     int exit_value = 0;
     int return_value = 0;
     char *parser = NULL;
+    char *history_path = get_pwd();
     while (1) {
         if (!is_echo())
             prompt();
@@ -67,6 +69,7 @@ int start_shell(char ***env)
             return exit_shell(parser, return_value);
         if (parser[my_strlen(parser) - 1] == '\n')
             parser = my_str_cut(parser, 1, 1);
+        history(parser, history_path);
         if (is_null_command(parser) != 1 &&
         (exit_value = check_exit(parser)) == 1)
             return exit_shell_with_command(parser, return_value);
