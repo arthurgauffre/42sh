@@ -28,6 +28,8 @@ SRC		=	builtins/builtins.c		\
 			str/replace_tab_with_space.c	\
 			tab/my_tablen.c			\
 			tab/free_tab.c			\
+			str/line_editing.c		\
+			str/get_input.c     \
 			data/init_data.c		\
 			data/free_data.c		\
 			function/load_fd_in_str.c	\
