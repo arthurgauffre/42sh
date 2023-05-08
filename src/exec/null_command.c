@@ -10,7 +10,22 @@
 #include "my.h"
 #include "header.h"
 
-int is_null_pipe(char **command_tab, int i)
+static int bad_redirection(char *str)
+{
+    char **tab = my_str_to_word_array(str, '>');
+    if (nb_chevron(str) > 2) {
+        free_tab(tab);
+        return 1;
+    }
+    if (my_tablen(tab) > 2) {
+        free_tab(tab);
+        return 1;
+    }
+    free_tab(tab);
+    return 0;
+}
+
+static int is_null_pipe_or_redirection(char **command_tab, int i)
 {
     char **pipe_tab = NULL;
     pipe_tab = my_str_to_word_array(command_tab[i], '|');
@@ -33,21 +48,27 @@ int is_null_command(char *parser)
     command_tab = my_str_to_word_array(parser, ';');
     for (int i = 0; command_tab[i] != NULL; i++) {
         if (command_tab[i][0] == '|' ||
-        command_tab[i][my_strlen(command_tab[i]) - 1] == '|') {
+        command_tab[i][my_strlen(command_tab[i]) - 1] == '|' ||
+        is_null_pipe_or_redirection(command_tab, i) == 1) {
             free_tab(command_tab);
             return 1;
         }
-        if (is_null_pipe(command_tab, i) == 1) {
-            return 1;
+        if (bad_redirection(command_tab[i]) == 1) {
+            free_tab(command_tab);
+            return 2;
         }
+
     }
     free_tab(command_tab);
     return 0;
 }
 
-int invalid_null_function(char *parser)
+int invalid_null_function(char *parser, int value)
 {
-    write(2, "Invalid null command.\n", 22);
+    if (value == 1)
+        my_puterror("Invalid null command.\n");
+    if (value == 2)
+        my_puterror("Ambiguous output redirect.\n");
     free(parser);
     return 1;
 }

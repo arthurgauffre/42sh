@@ -10,5 +10,11 @@
 
 int my_puterror(char const *str)
 {
-    return write(2, str, my_strlen(str));
+    int size = 0;
+    if (str == NULL)
+        return -1;
+    size = my_strlen(str);
+    if (size == -1)
+        return -1;
+    return write(2, str, size);
 }

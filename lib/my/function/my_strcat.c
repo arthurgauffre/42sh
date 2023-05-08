@@ -5,19 +5,21 @@
 ** return char
 */
 
+#include <unistd.h>
+
 char *my_strcat(char *dest, char const *src)
 {
-    int count = 0;
-    int count2 = 0;
+    int count_dest = 0;
+    int count_src = 0;
 
-    while (dest[count] != '\0') {
-        count += 1;
+    if (dest == NULL || src == NULL)
+        return NULL;
+    while (dest[count_dest] != '\0')
+        count_dest += 1;
+    while (src[count_src] != '\0') {
+        dest[count_dest] = src[count_src];
+        count_dest += 1;
+        count_src += 1;
     }
-    while (src[count2] != '\0') {
-        dest[count] = src[count2];
-        count += 1;
-        count2 += 1;
-    }
-    dest[count] == '\0';
-    return (dest);
+    return dest;
 }
