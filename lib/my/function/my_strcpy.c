@@ -5,14 +5,16 @@
 ** return str cpy
 */
 
+#include <unistd.h>
+
 char *my_strcpy(char *dest, char const *src)
 {
-    int count;
-    count = 0;
-    while (src[count] != '\0') {
+    int count = 0;
+
+    if (dest == NULL || src == NULL)
+        return NULL;
+    for (; src[count] != '\0'; count++)
         dest[count] = src[count];
-        count += 1;
-    }
     dest[count] = '\0';
-    return (dest);
+    return dest;
 }

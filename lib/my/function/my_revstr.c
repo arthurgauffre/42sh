@@ -5,25 +5,19 @@
 ** return rev str
 */
 
-int len(char const *str)
-{
-    int taille;
-
-    taille = 0;
-    while (str[taille] != '\0') {
-        taille += 1;
-    }
-    return (taille);
-}
+#include <unistd.h>
+#include "my.h"
 
 char *my_revstr(char *str)
 {
-    int first;
-    int last;
+    int first = 0;
+    int last = 0;
     char bcp;
 
-    first = 0;
-    last = len(str) - 1;
+    if (str == NULL)
+        return NULL;
+    if ((last = my_strlen(str) - 1) == - 2)
+        return NULL;
     while (first <= last) {
         bcp = str[first];
         str[first] = str[last];
@@ -31,5 +25,5 @@ char *my_revstr(char *str)
         first += 1;
         last -= 1;
     }
-    return (str);
+    return str;
 }

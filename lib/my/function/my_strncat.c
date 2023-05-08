@@ -5,22 +5,21 @@
 ** return n char
 */
 
-int my_strlen(char const *str);
+#include <unistd.h>
+#include "my.h"
 
 char *my_strncat(char *dest ,char const *src ,int nb)
 {
-    int count;
-    int count2;
+    int count_dest = 0;
+    int count_src = 0;
 
-    count = 0;
-    count2 = 0;
-    while (dest[count] != '\0') {
-        count += 1;
+    if (dest == NULL || src == NULL)
+        return NULL;
+    for (; dest[count_dest] != '\0'; count_dest++);
+    while (src[count_src] != '\0' && count_src < nb) {
+        dest[count_dest] = src[count_src];
+        count_dest += 1;
+        count_src += 1;
     }
-    while (src[count2] != '\0' && count2 < nb) {
-        dest[count] = src[count2];
-        count += 1;
-        count2 += 1;
-    }
-    return (dest);
+    return dest;
 }

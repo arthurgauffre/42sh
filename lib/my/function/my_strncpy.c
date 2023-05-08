@@ -5,23 +5,18 @@
 ** task02
 */
 
-int my_strlen(char const *str)
-{
-    int taille;
-
-    taille = 0;
-    while (str[taille] != '\0') {
-        taille += 1;
-    }
-    return (taille);
-}
+#include <unistd.h>
+#include "my.h"
 
 char *my_strncpy(char *dest, char const *src, int n)
 {
-    int count;
-    int len_src;
-    count = 0;
-    len_src = my_strlen(src);
+    int count = 0;
+    int len_src = 0;
+
+    if (dest == NULL || src == NULL)
+        return NULL;
+    if ((len_src = my_strlen(src)) == -1)
+        return NULL;
     while (src[count] != '\0' && count < n) {
         dest[count] = src[count];
         count += 1;
@@ -29,8 +24,8 @@ char *my_strncpy(char *dest, char const *src, int n)
     if (n > len_src) {
         while (dest[count] != '\0') {
             dest[count] = '\0';
-                count += 1;
+            count += 1;
         }
     }
-    return (dest);
+    return dest;
 }
