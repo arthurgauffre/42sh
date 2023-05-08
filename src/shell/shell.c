@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/wait.h>
+#include <string.h>
 #include "header.h"
 #include "my.h"
 
@@ -61,8 +62,7 @@ int start_shell(char ***env)
     int return_value = 0;
     char *parser = NULL;
     while (1) {
-        if (!is_echo())
-            prompt();
+        print_prompt("$> ");
         if ((parser = read_terminal()) == NULL)
             return exit_shell(parser, return_value);
         if (parser[my_strlen(parser) - 1] == '\n')

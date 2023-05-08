@@ -6,8 +6,9 @@
 */
 
 #include <unistd.h>
+#include <string.h>
 
-void prompt(void)
+void prompt(char const *prompt_str)
 {
-    write(1, "$> ", 3);
+    write(1, prompt_str, strlen(prompt_str));
 }
