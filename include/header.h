@@ -7,6 +7,7 @@
 
 #include <signal.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include "struct.h"
 
 #ifndef HEADER
@@ -56,5 +57,15 @@
     int invalid_null_function(char *parser, int value);
     int is_null_command(char *parser);
     void child_connection(sh_data_t sh_data);
+    char *load_file_in_mem(char const *filepath);
+    int history(char *input, char *history_path);
+    history_t *add_node(history_t *head, history_data_t data);
+    void free_list(history_t *head);
+    int print_list(history_t *head, char *input, FILE *fd);
+    int count_nodes(history_t *head);
+    int write_in_file(char *name, char *content);
+    char *get_path_history(char *path);
+    sh_data_t init_data(char ***env);
+    void display_history(char *path_history);
 
 #endif /* !HEADER */

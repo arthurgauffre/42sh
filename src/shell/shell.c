@@ -61,8 +61,7 @@ int loop_command(sh_data_t *data, int exit_value)
 int start_shell(char ***env)
 {
     int exit_value = 0;
-    sh_data_t data = {0};
-    data.env = env;
+    sh_data_t data = init_data(env);
     while (1) {
         if (!is_echo())
             print_prompt("$> ");
@@ -70,6 +69,7 @@ int start_shell(char ***env)
             return exit_shell(data);
         if (data.parser[my_strlen(data.parser) - 1] == '\n')
             data.parser = my_str_cut(data.parser, 1, 1);
+        history(data.parser, data.pwd);
         if (is_null_command(data.parser) == 0 &&
         (exit_value = check_exit(data.parser)) == 1)
             return exit_shell_with_command(data.parser, data.return_value);

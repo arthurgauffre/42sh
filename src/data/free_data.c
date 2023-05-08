@@ -29,4 +29,6 @@ void free_data(sh_data_t data)
         free(data.redirection.filename);
     if (data.tab_pipe)
         free_tab(data.tab_pipe);
+    if (data.pwd)
+        free(data.pwd);
 }

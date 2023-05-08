@@ -54,3 +54,5 @@ dkms.conf
 error_tests
 tester
 coding-style*
+.vscode
+.history*

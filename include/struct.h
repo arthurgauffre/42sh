@@ -24,6 +24,7 @@
         char *command_and;
         char **tab_and;
         char *command_or;
+        char *pwd;
         char **tab_or;
         char **tab_command;
         char **tab_parser;
@@ -47,5 +48,17 @@
         int len;
         int end;
     } spliter_t;
+
+    typedef struct history_data_s {
+        int nbr;
+        char *time;
+        char *command;
+    }history_data_t;
+
+    typedef struct history_s {
+        history_data_t data;
+        struct history_s *next;
+        struct history_s *prev;
+    }history_t;
 
 #endif /* !STRUCT_H_ */

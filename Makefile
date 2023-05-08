@@ -21,20 +21,29 @@ SRC		=	builtins/builtins.c		\
 			shell/echo.c			\
 			shell/mysh.c			\
 			shell/prompt.c			\
+			shell/init_data.c		\
 			str/all_space_or_tab.c			\
 			str/my_str_cut.c				\
 			str/my_str_isalphanum.c			\
 			str/back_slash_handling.c 		\
 			str/read_terminal.c				\
 			str/replace_tab_with_space.c	\
-			tab/my_tablen.c			\
-			tab/free_tab.c			\
-			str/line_editing.c		\
-			str/get_input.c     \
-			data/init_data.c		\
-			data/free_data.c		\
-			function/load_fd_in_str.c	\
-			function/spliter.c	\
+			tab/my_tablen.c					\
+			tab/free_tab.c					\
+			str/line_editing.c				\
+			str/get_input.c     			\
+			data/init_data.c				\
+			data/free_data.c				\
+			function/load_fd_in_str.c		\
+			function/spliter.c				\
+			linked_list/add_node.c			\
+			linked_list/free_list.c			\
+			linked_list/print_list.c		\
+			linked_list/count_nodes.c		\
+			history/history.c				\
+			history/write_in_file.c			\
+			history/load_file_in_mem.c		\
+			history/display_history.c		\
 			main.c
 
 DIR_SRC 	= 	$(addprefix src/, $(SRC))
