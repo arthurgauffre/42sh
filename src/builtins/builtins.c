@@ -11,91 +11,87 @@
 #include "header.h"
 #include "my.h"
 
-static int env_child_exec(char **tab_command, sh_data_t sh_data, char **env,
-char **tab)
+static int env_child_exec(sh_data_t *data)
 {
-    if (sh_data.nb_commands > 1) {
-        pipes_connexion(sh_data);
+    if (data->nb_commands > 1) {
+        pipes_connexion(*data);
     }
-    if (my_tablen(tab) == 1) {
-        for (int i = 0; env[i] != NULL; i++) {
-            my_putstr(env[i]);
+    if (my_tablen(data->tab_parser) == 1) {
+        for (int i = 0; (*data->env)[i] != NULL; i++) {
+            my_putstr((*data->env)[i]);
             write(1, "\n", 1);
         }
-        free_child_env(tab_command, sh_data, tab);
+        free_child_env(data->tab_command, *data, data->tab_parser);
         exit(0);
     }
     my_puterror("env: '");
-    my_puterror(tab[1]);
+    my_puterror(data->tab_parser[1]);
     my_puterror("': No such file or directory\n");
-    free_child_env(tab_command, sh_data, tab);
+    free_child_env(data->tab_command, *data, data->tab_parser);
     exit(1);
 }
 
-static int env_parent_exec(pid_t pid, int wstatus, sh_data_t sh_data)
+static int env_parent_exec(pid_t pid, int wstatus, sh_data_t data)
 {
-    if (sh_data.nb_actual_command > 0) {
-        close(sh_data.pipes[sh_data.nb_actual_command - 1][0]);
-        close(sh_data.pipes[sh_data.nb_actual_command - 1][1]);
+    if (data.nb_actual_command > 0) {
+        close(data.pipes[data.nb_actual_command - 1][0]);
+        close(data.pipes[data.nb_actual_command - 1][1]);
     }
     waitpid(pid, &wstatus, 0);
     return WEXITSTATUS(wstatus);
 }
 
-int env_builtin(char **tab_command, sh_data_t sh_data, char **tab, char **env)
+int env_builtin(sh_data_t *data)
 {
     int wstatus = 0;
-    if (tab == NULL)
+    if (data->tab_parser == NULL)
         return 84;
-    if (sh_data.nb_actual_command < sh_data.nb_commands - 1)
-        pipe(sh_data.pipes[sh_data.nb_actual_command]);
+    if (data->nb_actual_command < data->nb_commands - 1)
+        pipe(data->pipes[data->nb_actual_command]);
     pid_t pid = fork();
     if (pid < 0)
         return 84;
     if (pid == 0) {
-        return env_child_exec(tab_command, sh_data, env, tab);
+        return env_child_exec(data);
     } else
-        return env_parent_exec(pid, wstatus, sh_data);
+        return env_parent_exec(pid, wstatus, *data);
 }
 
-int setenv_builtin(char **tab_command, sh_data_t sh_data, char **tab,
-char ***env)
+int setenv_builtin(sh_data_t *data)
 {
-    if (my_tablen(tab) == 1)
-        return env_builtin(tab_command, sh_data, tab, *env);
-    if (sh_data.nb_commands != 1)
+    if (my_tablen(data->tab_parser) == 1)
+        return env_builtin(data);
+    if (data->nb_commands != 1)
         return 2;
-    if (my_tablen(tab) > 3) {
+    if (my_tablen(data->tab_parser) > 3) {
         my_puterror("setenv: Too many arguments.\n");
         return 1;
     }
-    if (my_str_isalphanum(tab[1]) == 0) {
+    if (my_str_isalphanum(data->tab_parser[1]) == 0) {
         my_puterror("setenv: Variable name must contain alphanumeric \
 characters.\n");
         return 1;
     }
-    if (my_tablen(tab) == 2)
-        return add_var_env_with_no_value(tab, env);
-    if (my_tablen(tab) == 3)
-        return add_var_env_with_value(tab, env);
+    if (my_tablen(data->tab_parser) == 2)
+        return add_var_env_with_no_value(data->tab_parser, data->env);
+    if (my_tablen(data->tab_parser) == 3)
+        return add_var_env_with_value(data->tab_parser, data->env);
     return 0;
 }
 
-int check_and_launch_mybuiltins(char **tab_command, sh_data_t sh_data)
+int check_and_launch_mybuiltins(sh_data_t *data)
 {
-    if (sh_data.tab_parser == NULL)
+    if (data->tab_parser == NULL)
         return 2;
-    if (sh_data.nb_commands == 1 &&
-    my_strcmp(sh_data.tab_parser[0], "cd") == 0)
-        return cd_builtin(sh_data.tab_parser, *sh_data.env);
-    if (sh_data.nb_commands == 1 &&
-    my_strcmp(sh_data.tab_parser[0], "unsetenv") == 0)
-        return unsetenv_builtin(sh_data.tab_parser, sh_data.env);
-    if (my_strcmp(sh_data.tab_parser[0], "setenv") == 0)
-        return setenv_builtin(tab_command, sh_data, sh_data.tab_parser,
-        sh_data.env);
-    if (my_strcmp(sh_data.tab_parser[0], "env") == 0)
-        return env_builtin(tab_command, sh_data, sh_data.tab_parser,
-        *(sh_data.env));
+    if (data->nb_commands == 1 &&
+    my_strcmp(data->tab_parser[0], "cd") == 0)
+        return cd_builtin(data);
+    if (data->nb_commands == 1 &&
+    my_strcmp(data->tab_parser[0], "unsetenv") == 0)
+        return unsetenv_builtin(data->tab_parser, data->env);
+    if (my_strcmp(data->tab_parser[0], "setenv") == 0)
+        return setenv_builtin(data);
+    if (my_strcmp(data->tab_parser[0], "env") == 0)
+        return env_builtin(data);
     return 2;
 }

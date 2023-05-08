@@ -12,11 +12,17 @@
 char *get_word(char const *str, int count, char separator)
 {
     int str_count = 0;
+    int word_size = 0;
+
+    if (str == NULL)
+        return NULL;
+    if ((word_size = len_word(str, count, separator)) == -1)
+        return NULL;
     char *str_tmp = malloc(sizeof(char) *
-    (len_word(str, count, separator) + 1));
+    (word_size + 1));
     if (str_tmp == NULL)
         return NULL;
-    str_tmp[len_word(str, count, separator)] = '\0';
+    str_tmp[word_size] = '\0';
     while (str[count] != '\0' && str[count] != separator) {
         str_tmp[str_count] = str[count];
         str_count += 1;

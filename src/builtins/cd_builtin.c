@@ -10,13 +10,14 @@
 #include "header.h"
 #include "my.h"
 
-int cd_error_and_cd_home(char **tab)
+int cd_error_and_cd_home(sh_data_t *data)
 {
-    if (tab[1] != NULL && my_strcmp(tab[1], "-") == 0 && my_tablen(tab) > 2) {
+    if (data->tab_parser[1] != NULL && my_strcmp(data->tab_parser[1], "-") == 0
+    && my_tablen(data->tab_parser) > 2) {
         my_puterror("Usage: cd [-plvn][-|<dir>].\n");
         return 1;
     }
-    if (my_tablen(tab) > 2) {
+    if (my_tablen(data->tab_parser) > 2) {
         my_puterror("cd: Too many arguments.\n");
         return 1;
     }
@@ -70,23 +71,26 @@ int cd_tild(char **env)
     return 0;
 }
 
-int cd_builtin(char **tab, char **env)
+int cd_builtin(sh_data_t *data)
 {
-    if (cd_error_and_cd_home(tab) == 1)
+    if (cd_error_and_cd_home(data) == 1)
         return 1;
-    if (my_tablen(tab) == 1 ||
-    (my_tablen(tab) == 2 && my_strcmp(tab[1], "~") == 0)) {
-        return cd_tild(env);
-    }
-    if (my_tablen(tab) == 2 && my_strcmp(tab[1], "-") == 0) {
-        chdir(get_inside_var_env(env, "OLDPWD="));
+    if (my_tablen(data->tab_parser) == 1 ||
+    (my_tablen(data->tab_parser) == 2 && my_strcmp(data->tab_parser[1], "~")
+    == 0))
+        return cd_tild((*data->env));
+    if (my_tablen(data->tab_parser) == 2 && my_strcmp(data->tab_parser[1], "-")
+    == 0) {
+        chdir(get_inside_var_env((*data->env), "OLDPWD="));
         char *pwd = get_pwd();
-        env = modif_var_env(env, "OLDPWD=", get_inside_var_env(env, "PWD="));
-        env = modif_var_env(env, "PWD=", pwd);
+        (*data->env) = modif_var_env((*data->env), "OLDPWD=",
+        get_inside_var_env((*data->env), "PWD="));
+        (*data->env) = modif_var_env((*data->env), "PWD=", pwd);
         free(pwd);
         return 0;
     }
-    if (my_tablen(tab) == 2 && my_strncmp(tab[1], "~/", 2) == 0)
-        return cd_tild_slash(tab, env);
-    return cd_with_file(tab, env);
+    if (my_tablen(data->tab_parser) == 2 &&
+    my_strncmp(data->tab_parser[1], "~/", 2) == 0)
+        return cd_tild_slash(data->tab_parser, (*data->env));
+    return cd_with_file(data->tab_parser, (*data->env));
 }

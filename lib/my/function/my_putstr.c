@@ -10,5 +10,12 @@
 
 int my_putstr(char const *str)
 {
-    return write(1, str, my_strlen(str));
+    int size = 0;
+    if (str == NULL)
+        return -1;
+    if ((size = my_strlen(str)) == -1)
+        return -1;
+    if (write(1, str, size) == -1)
+        return -1;
+    return size;
 }

@@ -11,6 +11,9 @@
 int len_word(char const *str, int count, char separator)
 {
     int nb = 0;
+
+    if (str == NULL)
+        return -1;
     while (str[count] != '\0' && str[count] != separator) {
         nb += 1;
         count += 1;

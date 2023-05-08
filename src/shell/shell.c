@@ -9,15 +9,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/wait.h>
+#include "struct.h"
 #include "header.h"
 #include "my.h"
 
-static int exit_shell(char *parser, int return_value)
+static int exit_shell(sh_data_t data)
 {
-    free(parser);
+    free(data.parser);
     if (!is_echo())
         my_putstr("exit\n");
-    return return_value;
+    return data.return_value;
 }
 
 int check_exit(char *parser)
@@ -40,40 +41,42 @@ int exit_shell_with_command(char *parser, int return_value)
     return return_value;
 }
 
-int loop_command(char *parser, int return_value, char ***env, int exit_value)
+int loop_command(sh_data_t *data, int exit_value)
 {
-    char **tab = NULL;
-    if (!my_strlen(parser) == 0 && all_space_or_tab(parser) == 1 &&
+    if (!my_strlen(data->parser) == 0 && all_space_or_tab(data->parser) == 1 &&
     exit_value != 2) {
-        tab = my_str_to_word_array(parser, ';');
-        for (int i = 0; tab[i] != NULL; i++)
-            return_value = check_and_launch_command(tab, tab[i], env, parser);
-        free_tab(tab);
-        free(parser);
+        data->tab_command = my_str_to_word_array(data->parser, ';');
+        for (int i = 0; data->tab_command[i] != NULL; i++) {
+            data->command = data->tab_command[i];
+            data->return_value = check_and_launch_command(data);
+        }
+        free_tab(data->tab_command);
+        free(data->parser);
     } else
-        free(parser);
-    return return_value;
+        free(data->parser);
+    return data->return_value;
 }
 
 int start_shell(char ***env)
 {
     int exit_value = 0;
-    int return_value = 0;
-    char *parser = NULL;
+    sh_data_t data = {0};
+    data.env = env;
     while (1) {
         if (!is_echo())
             prompt();
-        if ((parser = read_terminal()) == NULL)
-            return exit_shell(parser, return_value);
-        if (parser[my_strlen(parser) - 1] == '\n')
-            parser = my_str_cut(parser, 1, 1);
-        if (is_null_command(parser) != 1 &&
-        (exit_value = check_exit(parser)) == 1)
-            return exit_shell_with_command(parser, return_value);
-        if (is_null_command(parser) == 1)
-            return_value = invalid_null_function(parser);
+        if ((data.parser = read_terminal()) == NULL)
+            return exit_shell(data);
+        if (data.parser[my_strlen(data.parser) - 1] == '\n')
+            data.parser = my_str_cut(data.parser, 1, 1);
+        if (is_null_command(data.parser) == 0 &&
+        (exit_value = check_exit(data.parser)) == 1)
+            return exit_shell_with_command(data.parser, data.return_value);
+        if ((data.return_value = is_null_command(data.parser)) != 0)
+            data.return_value =
+            invalid_null_function(data.parser, data.return_value);
         else
-            return_value = loop_command(parser, return_value, env, exit_value);
+            data.return_value = loop_command(&data, exit_value);
     }
-    return return_value;
+    return data.return_value;
 }
