@@ -62,7 +62,7 @@ int is_null_command(char *parser)
     for (int i = 0; command_tab[i] != NULL; i++) {
         if (command_tab[i][0] == '|' ||
         command_tab[i][my_strlen(command_tab[i]) - 1] == '|' ||
-        is_null_pipe_or_redirection(command_tab, i) == 1 || 
+        is_null_pipe_or_redirection(command_tab, i) == 1 ||
         bad_separator(command_tab[i]) == 1) {
             free_tab(command_tab);
             return 1;
