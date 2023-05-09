@@ -66,20 +66,20 @@ static char *init_redirection(char *parser, sh_data_t *data)
 
 int loop_pipe(sh_data_t *data)
 {
-    int return_value = 0;
-
     for (int i = 0; i < data->nb_commands - 1; i++)
         data->pipes[i] = malloc(sizeof(int) * 2);
     for (int i = 0; data->tab_pipe[i] != NULL; i++) {
+        if (check_exit(data->tab_pipe[i]) == 1)
+            exit(data->return_value);
         data->tab_pipe[i] = init_redirection(data->tab_pipe[i], data);
         data->tab_parser = my_str_to_word_array(data->tab_pipe[i], ' ');
         data->nb_actual_command = i;
-        if ((return_value = check_and_launch_mybuiltins(data)) == 2)
-            return_value = check_and_launch_binary(data);
+        if ((data->return_value = check_and_launch_mybuiltins(data)) == 2)
+            data->return_value = check_and_launch_binary(data);
         free_tab(data->tab_parser);
     }
     free_int_tab(data->pipes);
-    return return_value;
+    return data->return_value;
 }
 
 int check_and_launch_command(sh_data_t *data)

@@ -70,5 +70,6 @@
     char *sup_char(char *commande, int *index);
     char *get_command(char *const prompt_char);
     void display_history(char *path_history);
+    int check_exit(char *parser);
 
 #endif /* !HEADER */

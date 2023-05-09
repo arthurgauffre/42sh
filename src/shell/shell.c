@@ -24,14 +24,14 @@ static int exit_shell(sh_data_t data)
 
 int check_exit(char *parser)
 {
-    if (my_strlen(parser) > 3 && my_strncmp(parser, "exit", 4) == 0 &&
-    (parser[4] == ' ' || parser[4] == '\0')) {
-        if (all_space_or_tab(&parser[4]) == 1) {
-            write(2, "exit: Expression Syntax.\n", 25);
-            return 2;
+    char **tab = my_str_to_word_array(parser, ' ');
+    if (my_strcmp(tab[0], "exit") == 0) {
+        if (my_tablen(tab) == 1) {
+            free_tab(tab);
+            return 1;
         }
-        return 1;
     }
+    free_tab(tab);
     return 0;
 }
 
