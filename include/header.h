@@ -33,7 +33,7 @@
     int start_shell(char ***env);
     char **my_envcpy(char **env);
     void print_prompt(char const *prompt_str);
-    char *read_terminal(sh_data_t *data);
+    char *read_terminal(void);
     char *backslash_check_count(char *parser);
     void free_child_env(char **tab_command, sh_data_t sh_data, char **tab);
     char *my_str_cut(char *str, int nb, int start_or_end);
@@ -66,6 +66,9 @@
     int write_in_file(char *name, char *content);
     char *get_path_history(char *path);
     sh_data_t init_data(char ***env);
+    char *add_char(char *command, int c, int *index);
+    char *sup_char(char *commande, int *index);
+    char *get_command(char *const prompt_char);
     void display_history(char *path_history);
 
 #endif /* !HEADER */

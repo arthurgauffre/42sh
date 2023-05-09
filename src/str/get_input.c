@@ -5,6 +5,9 @@
 ** get_input
 */
 
+#include <unistd.h>
+#include "header.h"
+
 int get_dir(int *index, int c)
 {
     read(0, &c, 1);

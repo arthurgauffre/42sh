@@ -65,7 +65,7 @@ int start_shell(char ***env)
     while (1) {
         if (!is_echo())
             print_prompt("$> ");
-        if ((data.parser = read_terminal(&data)) == NULL)
+        if ((data.parser = read_terminal()) == NULL)
             return exit_shell(data);
         if (data.parser[my_strlen(data.parser) - 1] == '\n')
             data.parser = my_str_cut(data.parser, 1, 1);

@@ -40,6 +40,19 @@ static int is_null_pipe_or_redirection(char **command_tab, int i)
     return 0;
 }
 
+static int bad_separator(char *str)
+{
+    char **tab = split_str_to_tab_with_wtr_separator(str, "&&");
+    for (int i = 0; tab[i] != NULL; i++) {
+        if (all_space_or_tab(tab[i]) == 0) {
+            free_tab(tab);
+            return 1;
+        }
+    }
+    free_tab(tab);
+    return 0;
+}
+
 int is_null_command(char *parser)
 {
     char **command_tab = NULL;
@@ -49,7 +62,8 @@ int is_null_command(char *parser)
     for (int i = 0; command_tab[i] != NULL; i++) {
         if (command_tab[i][0] == '|' ||
         command_tab[i][my_strlen(command_tab[i]) - 1] == '|' ||
-        is_null_pipe_or_redirection(command_tab, i) == 1) {
+        is_null_pipe_or_redirection(command_tab, i) == 1 || 
+        bad_separator(command_tab[i]) == 1) {
             free_tab(command_tab);
             return 1;
         }

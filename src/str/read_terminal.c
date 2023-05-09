@@ -20,7 +20,7 @@ void print_prompt(char const *prompt_str)
     }
 }
 
-char *read_terminal(sh_data_t *data)
+char *read_terminal(void)
 {
     char *line = NULL;
     size_t len = 0;
