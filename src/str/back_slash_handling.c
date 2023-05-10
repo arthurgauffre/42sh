@@ -62,9 +62,7 @@ static char *backslash_check_end(char *parser, sh_data_t *data)
     char *final_parser = NULL;
     size_t len = 0;
     if (parser[strlen(parser) - 1] == '\\') {
-        if (isatty(STDIN_FILENO) == 1) {
-            new_parser = get_command("? ", data);
-        }
+        new_parser = read_terminal(data, "?  ");
         parser[strcspn(parser, "\n")] = ' ';
         final_parser = malloc(sizeof(char) * strlen(parser) + \
 strlen(new_parser) + 1);

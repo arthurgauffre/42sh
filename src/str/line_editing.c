@@ -66,7 +66,7 @@ char *add_char(char *command, int c, int *index)
     return command;
 }
 
-int print_line(char *command, int *index, char *const prompt_char)
+int print_line(char *command, int *index, char const *prompt_char)
 {
     printf("\r");
     for (int i = 0; i < index[1] + 3; i++)
@@ -93,7 +93,7 @@ char *command_null(void)
     return str;
 }
 
-char *get_command(char *const prompt_char, sh_data_t *data)
+char *get_command(char const *prompt_char, sh_data_t *data)
 {
     char *command = NULL;
     char **history = get_text(data);
