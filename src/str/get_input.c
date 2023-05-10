@@ -11,6 +11,7 @@
 char *add_char(char *command, int c, int *index);
 char *sup_char(char *commande, int *index);
 int my_strlen(char const *str);
+char *do_suppr(char c, int *index, char *command);
 
 void go_up(int *index, char **history)
 {
@@ -28,30 +29,6 @@ void go_down(int *index, char **history)
         index[0] = my_strlen(history[index[2]]) - 1;
         index[1] = my_strlen(history[index[2] - 1]) + 1;
     }
-}
-
-char *do_suppr(char c, int *index, char *command)
-{
-    read(0, &c, 1);
-    if (c != '~')
-        return command;
-    if (command == NULL)
-        return NULL;
-    int i = index[0] + 1;
-    int len = strlen(command);
-    if (len == 1 && i == 0) {
-        free(command);
-        index[1]--;
-        return NULL;
-    }
-    if (i >= 1) {
-        for (; command[i] != '\0'; i++) {
-            command[i] = command[i + 1];
-        }
-    }
-    index[1] = strlen(command) + 1;
-    command = realloc(command, len);
-    return command;
 }
 
 int get_cequence_sup(char c, char **history, int *index)
