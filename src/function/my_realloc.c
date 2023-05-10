@@ -8,7 +8,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-char *my_realloc(char *str, int size) {
+char *my_realloc(char *str, int size)
+{
     if (str == NULL) {
         str = malloc(sizeof(char) * (size + 1));
         return str;
