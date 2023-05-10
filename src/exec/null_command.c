@@ -53,13 +53,14 @@ static int redirection_check_file(char *parser)
 int is_null_command(char *parser)
 {
     char **command_tab = NULL;
+    if (my_strlen(parser) == 0)
+        return 0;
     if (parser[0] == '|' || parser[0] == '<' || parser[0] == '>')
         return 1;
     command_tab = my_str_to_word_array(parser, ';');
     for (int i = 0; command_tab[i] != NULL; i++) {
-        if (command_tab[i][0] == '|' ||
-        command_tab[i][my_strlen(command_tab[i]) - 1] == '|' ||
-        is_null_pipe_or_redirection(command_tab, i) == 1 ||
+        if (command_tab[i][0] == '|' || command_tab[i][my_strlen(command_tab[i]
+        ) - 1] == '|' || is_null_pipe_or_redirection(command_tab, i) == 1 ||
         bad_separator(command_tab[i]) == 1) {
             free_tab(command_tab);
             return 1;
