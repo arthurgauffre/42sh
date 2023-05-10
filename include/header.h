@@ -75,5 +75,6 @@
     void free_and_close(FILE *fd, char *history, char *time, char *path);
     int cd_dash(sh_data_t *data);
     int slash_in_str(char *str);
+    char *my_realloc(char *str, int size);
 
 #endif /* !HEADER */
