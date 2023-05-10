@@ -26,4 +26,3 @@ char *my_realloc(char *str, int size) {
 
     return output;
 }
-
