@@ -61,9 +61,9 @@ int start_shell(char ***env)
             return exit_shell(data);
         if (data.parser[my_strlen(data.parser) - 1] == '\n')
             data.parser = my_str_cut(data.parser, 1, 1);
-        if ((data.return_value = is_null_command(data.parser)) != 0)
-            data.return_value =
-            invalid_null_function(data.parser, data.return_value);
+        if ((data.null_command = is_null_command(data.parser)) != 0)
+            data.null_command =
+            invalid_null_function(data.parser, data.null_command);
         else
             data.return_value = loop_command(&data);
     }

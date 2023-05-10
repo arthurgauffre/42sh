@@ -92,5 +92,5 @@ int check_and_launch_command(sh_data_t *data)
     if (all_space_or_tab(data->command) == 1) {
         return loop_and(data);
     }
-    return 0;
+    return data->return_value;
 }
