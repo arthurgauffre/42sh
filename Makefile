@@ -38,6 +38,7 @@ SRC		=	builtins/builtins.c		\
 			data/free_data.c				\
 			function/load_fd_in_str.c		\
 			function/spliter.c				\
+			function/slash_in_str.c			\
 			linked_list/add_node.c			\
 			linked_list/free_list.c			\
 			linked_list/print_list.c		\

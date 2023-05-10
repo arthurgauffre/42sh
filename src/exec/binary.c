@@ -42,8 +42,10 @@ static int child_exec(sh_data_t *data)
         free_data(*data);
         exit(126);
     }
-    for (int i = 0; path[i] != NULL; i++) {
-        exec_with_path(data->tab_parser, *data->env, path[i]);
+    if (slash_in_str(data->tab_parser[0]) == 0) {
+        for (int i = 0; path[i] != NULL; i++) {
+            exec_with_path(data->tab_parser, *data->env, path[i]);
+        }
     }
     display_child_error(data->tab_parser[0]);
     free_tab(path);

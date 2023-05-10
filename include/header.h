@@ -74,5 +74,6 @@
     int check_exit(char *parser);
     void free_and_close(FILE *fd, char *history, char *time, char *path);
     int cd_dash(sh_data_t *data);
+    int slash_in_str(char *str);
 
 #endif /* !HEADER */
