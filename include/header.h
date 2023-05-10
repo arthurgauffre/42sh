@@ -32,6 +32,7 @@
     int mysh(char **my_env);
     int start_shell(char ***env);
     char **my_envcpy(char **env);
+    int bad_redirection(char *str);
     void print_prompt(char const *prompt_str);
     char *read_terminal(void);
     char *backslash_check_count(char *parser);

@@ -10,21 +10,6 @@
 #include "my.h"
 #include "header.h"
 
-static int bad_redirection(char *str)
-{
-    char **tab = my_str_to_word_array(str, '>');
-    if (nb_chevron(str) > 2) {
-        free_tab(tab);
-        return 1;
-    }
-    if (my_tablen(tab) > 2) {
-        free_tab(tab);
-        return 1;
-    }
-    free_tab(tab);
-    return 0;
-}
-
 static int is_null_pipe_or_redirection(char **command_tab, int i)
 {
     char **pipe_tab = NULL;
@@ -52,6 +37,19 @@ static int bad_separator(char *str)
     return 0;
 }
 
+static int redirection_check_file(char *parser)
+{
+    char **tab = my_str_to_word_array(parser, ' ');
+    if (tab[my_tablen(tab) - 1][my_strlen(tab[my_tablen(tab) - 1]) - 1] == '>'
+    || tab[my_tablen(tab) - 1]
+    [my_strlen(tab[my_tablen(tab) - 1]) - 1] == '<') {
+        free_tab(tab);
+        return 3;
+    }
+    free_tab(tab);
+    return 0;
+}
+
 int is_null_command(char *parser)
 {
     char **command_tab = NULL;
@@ -70,10 +68,9 @@ int is_null_command(char *parser)
             free_tab(command_tab);
             return 2;
         }
-
     }
     free_tab(command_tab);
-    return 0;
+    return redirection_check_file(parser);
 }
 
 int invalid_null_function(char *parser, int value)
@@ -82,6 +79,8 @@ int invalid_null_function(char *parser, int value)
         my_puterror("Invalid null command.\n");
     if (value == 2)
         my_puterror("Ambiguous output redirect.\n");
+    if (value == 3)
+        my_puterror("Missing name for redirect.\n");
     free(parser);
     return 1;
 }

@@ -17,6 +17,7 @@ SRC		=	builtins/builtins.c		\
 			exec/display_error.c	\
 			exec/loop_separators.c	\
 			exec/null_command.c		\
+			exec/bad_redirection.c	\
 			shell/shell.c			\
 			shell/echo.c			\
 			shell/mysh.c			\
@@ -31,7 +32,7 @@ SRC		=	builtins/builtins.c		\
 			tab/my_tablen.c					\
 			tab/free_tab.c					\
 			str/line_editing.c				\
-			str/get_input.c     			\
+			str/get_input.c					\
 			data/init_data.c				\
 			data/free_data.c				\
 			function/load_fd_in_str.c		\
