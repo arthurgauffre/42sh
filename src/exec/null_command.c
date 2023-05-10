@@ -32,7 +32,6 @@ static int is_null_pipe_or_redirection(char **command_tab, int i)
     for (int j = 0; pipe_tab[j] != NULL; j++) {
         if (all_space_or_tab(pipe_tab[j]) == 0) {
             free_tab(pipe_tab);
-            free_tab(command_tab);
             return 1;
         }
     }
@@ -56,7 +55,7 @@ static int bad_separator(char *str)
 int is_null_command(char *parser)
 {
     char **command_tab = NULL;
-    if (parser[0] == '|')
+    if (parser[0] == '|' || parser[0] == '<' || parser[0] == '>')
         return 1;
     command_tab = my_str_to_word_array(parser, ';');
     for (int i = 0; command_tab[i] != NULL; i++) {
