@@ -8,6 +8,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+
+#include "struct.h"
+#include "header.h"
+
 char **add_str(char **tab, char *new_var);
 
 char **add_line(char *line, ssize_t linesize, char **text, char *new_line)
@@ -26,11 +30,12 @@ char **add_line(char *line, ssize_t linesize, char **text, char *new_line)
     return text;
 }
 
-char **get_text(void)
+char **get_text(sh_data_t *data)
 {
-    if (access(".history_42sh", F_OK) != 0)
+    char *history_path = get_path_history(data->pwd);
+    if (access(history_path, F_OK) != 0)
         return NULL;
-    FILE *file = fopen(".history_42sh", "rb");
+    FILE *file = fopen(history_path, "rb");
     char **text = NULL;
     char *line = NULL;
     size_t len = 0;
@@ -39,6 +44,7 @@ char **get_text(void)
     while ((linesize = getline(&line, &len, file)) != -1) {
         text = add_line(line + 13, linesize - 13, text, new_line);
     }
+    free(history_path);
     fclose(file);
     return text;
 }

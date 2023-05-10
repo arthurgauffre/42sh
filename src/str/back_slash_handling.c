@@ -56,14 +56,14 @@ static char *backslash_check(char *parser, int counter)
     return new_parser;
 }
 
-static char *backslash_check_end(char *parser)
+static char *backslash_check_end(char *parser, sh_data_t *data)
 {
     char *new_parser = NULL;
     char *final_parser = NULL;
     size_t len = 0;
     if (parser[strlen(parser) - 1] == '\\') {
         if (isatty(STDIN_FILENO) == 1) {
-            new_parser = get_command("? ");
+            new_parser = get_command("? ", data);
         }
         parser[strcspn(parser, "\n")] = ' ';
         final_parser = malloc(sizeof(char) * strlen(parser) + \
@@ -97,7 +97,7 @@ char *backslash_check_count(char *parser, sh_data_t *data)
     int counter = 0;
     char *temp_parser = NULL;
     char *new_parser = NULL;
-    if ((temp_parser = backslash_check_end(parser)) != NULL) {
+    if ((temp_parser = backslash_check_end(parser, data)) != NULL) {
         counter = counter_fonc(temp_parser);
         new_parser = backslash_check(temp_parser, counter);
         history(new_parser, data->pwd);

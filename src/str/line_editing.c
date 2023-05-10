@@ -10,10 +10,13 @@
 #include <termios.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "struct.h"
+
 int my_tab_len(char **tab);
 char *get_ch(int c, char *command, int *index, char **history);
 char **add_str(char **tab, char *new_var);
-char **get_text(void);
+char **get_text(sh_data_t *data);
 char *my_strdup(char const *src);
 void free_tab(char **tab);
 void init_term(void);
@@ -90,10 +93,10 @@ char *command_null(void)
     return str;
 }
 
-char *get_command(char *const prompt_char)
+char *get_command(char *const prompt_char, sh_data_t *data)
 {
     char *command = NULL;
-    char **history = get_text();
+    char **history = get_text(data);
     char c;
     int *index = init_index(history);
     init_term();
