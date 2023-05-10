@@ -10,30 +10,36 @@
 #include <termios.h>
 #include <stdio.h>
 #include <stdlib.h>
+int my_tab_len(char **tab);
+int get_dir(int *index, int c, char **history);
+char *get_ch(int c, char *command, int *index, char **history);
+char **add_str(char **tab, char *new_var);
+char **get_text(void);
+char *my_strdup(char const *src);
+void free_tab(char **tab);
+void init_term(void);
+int *init_index(char **history);
 
-int get_dir(int *index, int c);
-char *get_ch(int c, char *command, int *index);
-
-char *sup_char(char *commande, int *index)
+char *sup_char(char *command, int *index)
 {
-    if (commande == NULL)
+    if (command == NULL)
         return NULL;
     int i = index[0];
-    int len = strlen(commande);
+    int len = strlen(command);
     if (len == 1 && i == 0) {
-        free(commande);
+        free(command);
         index[0]--;
         index[1]--;
         return NULL;
     }
     if (i >= 0) {
-        for (; commande[i] != '\0'; i++) {
-            commande[i] = commande[i + 1];
+        for (; command[i] != '\0'; i++) {
+            command[i] = command[i + 1];
         }
     }
     index[0]--;
-    index[1]--;
-    return realloc(commande, len);
+    index[1] = strlen(command) + 1;
+    return realloc(command, len);
 }
 
 char *add_char(char *command, int c, int *index)
@@ -47,9 +53,9 @@ char *add_char(char *command, int c, int *index)
         index[1] = 2;
         return command;
     }
-    index[1] += 1;
-    command = realloc(command, sizeof(char) * index[1]);
-    for (int i = index[0] + 1; i < index[1];i++) {
+    command = realloc(command, sizeof(char) * (strlen(command) + 2));
+    index[1] = strlen(command) + 2;
+    for (int i = index[0] + 1; i < index[1]; i++) {
         save = command[i];
         command[i] = c;
         c = save;
@@ -61,13 +67,15 @@ char *add_char(char *command, int c, int *index)
 int print_line(char *command, int *index, char *const prompt_char)
 {
     printf("\r");
-    for (int i = 0; i < index[1] + 4; i++)
+    for (int i = 0; i < index[1] + 3; i++)
         printf(" ");
     printf("\r");
     printf("%s", prompt_char);
     if (command != NULL)
         printf("%s", command);
     printf("\r");
+    if (index[0] == -2)
+        index[0]++;
     for (int i = 0; i < index[0] + 4; i++)
         printf("\033[C");
     return 0;
@@ -85,22 +93,24 @@ char *command_null(void)
 
 char *get_command(char *const prompt_char)
 {
-    int index[2];
-    index[0] = -1;
-    index[1] = 0;
     char *command = NULL;
-    struct termios term;
-    tcgetattr(0, &term);
-    term.c_lflag &= ~(ICANON | ECHO);
-    tcsetattr(0, TCSANOW, &term);
+    char **history = get_text();
     char c;
+    int *index = init_index(history);
+    init_term();
+    history = add_str(history, NULL);
     while (read(0, &c, 1) > 0 && c != 10) {
-        command = get_ch(c, command, index);
-        print_line(command, index, prompt_char);
+        if (c == 4)
+            return NULL;
+        history[index[2]] = get_ch(c, history[index[2]], index, history);
+        print_line(history[index[2]], index, prompt_char);
         fflush(stdout);
     }
-    if (command == NULL)
-        command = command_null();
+    if (history[index[2]] == NULL)
+        history[index[2]] = command_null();
     printf("\n");
+    command = my_strdup(history[index[2]]);
+    free(index);
+    free_tab(history);
     return command;
 }

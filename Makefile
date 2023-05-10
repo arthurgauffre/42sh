@@ -46,6 +46,9 @@ SRC		=	builtins/builtins.c		\
 			history/load_file_in_mem.c		\
 			history/display_history.c		\
 			history/free_and_close.c		\
+			str/tab_handeling.c				\
+			str/init_line_editing.c			\
+			str/get_text.c					\
 			main.c
 
 DIR_SRC 	= 	$(addprefix src/, $(SRC))
