@@ -7,6 +7,7 @@
 
 SRC		=	builtins/builtins.c		\
 			builtins/cd_builtin.c	\
+			builtins/cd_dash.c		\
 			builtins/env.c			\
 			builtins/pwd.c			\
 			builtins/unsetenv.c		\
