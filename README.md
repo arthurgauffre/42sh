@@ -20,8 +20,8 @@ A list of technologies used within the project:
 ***
 A little intro about the installation. 
 ```
-$ git clone git@github.com:EpitechPromo2027/B-PSU-200-BDX-2-1-minishell2-romain.giraud.git
-$ cd B-PSU-200-2-1-minishell2-romain.giraud
+$ git clone git@github.com:EpitechPromo2027/B-PSU-200-BDX-2-1-42sh-arthur.gauffre.git
+$ cd B-PSU-200-2-1-42sh-arthur.gauffre
 $ make
 $ ./42sh
 ```
