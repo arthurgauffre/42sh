@@ -31,6 +31,7 @@
         char **tab_pipe;
         char **tab;
         char ***env;
+        int exit_shell;
         int nb_commands;
         int return_value;
         int nb_actual_command;

@@ -30,22 +30,15 @@ int check_exit(char *parser)
             free_tab(tab);
             return 1;
         }
+        write(2, "exit: Expression Syntax.\n", 25);
     }
     free_tab(tab);
     return 0;
 }
 
-int exit_shell_with_command(char *parser, int return_value)
+int loop_command(sh_data_t *data)
 {
-    my_putstr("exit\n");
-    free(parser);
-    return return_value;
-}
-
-int loop_command(sh_data_t *data, int exit_value)
-{
-    if (!my_strlen(data->parser) == 0 && all_space_or_tab(data->parser) == 1 &&
-    exit_value != 2) {
+    if (!my_strlen(data->parser) == 0 && all_space_or_tab(data->parser) == 1) {
         data->tab_command = my_str_to_word_array(data->parser, ';');
         for (int i = 0; data->tab_command[i] != NULL; i++) {
             data->command = data->tab_command[i];
@@ -60,23 +53,19 @@ int loop_command(sh_data_t *data, int exit_value)
 
 int start_shell(char ***env)
 {
-    int exit_value = 0;
     sh_data_t data = init_data(env);
-    while (1) {
+    while (data.exit_shell == 1) {
         if (!is_echo())
             print_prompt("$> ");
         if ((data.parser = read_terminal()) == NULL)
             return exit_shell(data);
         if (data.parser[my_strlen(data.parser) - 1] == '\n')
             data.parser = my_str_cut(data.parser, 1, 1);
-        if (is_null_command(data.parser) == 0 &&
-        (exit_value = check_exit(data.parser)) == 1)
-            return exit_shell_with_command(data.parser, data.return_value);
         if ((data.return_value = is_null_command(data.parser)) != 0)
             data.return_value =
             invalid_null_function(data.parser, data.return_value);
         else
-            data.return_value = loop_command(&data, exit_value);
+            data.return_value = loop_command(&data);
     }
     return data.return_value;
 }

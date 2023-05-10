@@ -11,7 +11,7 @@
 #include "header.h"
 #include "my.h"
 
-static int loop_or(sh_data_t *data, int return_value)
+static int loop_or(sh_data_t *data)
 {
     char **tab = NULL;
     char **tab_or = NULL;
@@ -24,32 +24,31 @@ static int loop_or(sh_data_t *data, int return_value)
             return KO;
         }
         data = init_pipe_data(data, tab);
-        return_value = loop_pipe(data);
+        data->return_value = loop_pipe(data);
         free_tab(data->tab_pipe);
-        if (return_value == 0) {
+        if (data->return_value == 0) {
             free_tab(data->tab_or);
-            return return_value;
+            return data->return_value;
         }
     }
     free_tab(data->tab_or);
-    return return_value;
+    return data->return_value;
 }
 
 int loop_and(sh_data_t *data)
 {
-    int return_value = 0;
     char **tab_and = NULL;
     data->command = replace_tab_with_space(data->command);
     tab_and = split_str_to_tab_with_wtr_separator(data->command, "&&");
     data->tab_and = tab_and;
     for (int i = 0; tab_and[i] != NULL; i++) {
         data->command_and = tab_and[i];
-        return_value = loop_or(data, return_value);
-        if (return_value != 0) {
+        data->return_value = loop_or(data);
+        if (data->return_value != 0) {
             free_tab(data->tab_and);
-            return return_value;
+            return data->return_value;
         }
     }
     free_tab(data->tab_and);
-    return return_value;
+    return data->return_value;
 }
