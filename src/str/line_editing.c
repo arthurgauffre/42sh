@@ -11,7 +11,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 int my_tab_len(char **tab);
-int get_dir(int *index, int c, char **history);
 char *get_ch(int c, char *command, int *index, char **history);
 char **add_str(char **tab, char *new_var);
 char **get_text(void);
