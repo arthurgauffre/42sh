@@ -16,6 +16,7 @@ void free_child_env(char **tab_command, sh_data_t sh_data, char **tab)
     free(sh_data.old_parser);
     free_int_tab(sh_data.pipes);
     free_tab(*sh_data.env);
+    free(sh_data.pwd);
 }
 
 void free_int_tab(int **tab)

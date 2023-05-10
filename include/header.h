@@ -34,8 +34,8 @@
     char **my_envcpy(char **env);
     int bad_redirection(char *str);
     void print_prompt(char const *prompt_str);
-    char *read_terminal(void);
-    char *backslash_check_count(char *parser);
+    char *read_terminal(sh_data_t *data);
+    char *backslash_check_count(char *parser, sh_data_t *data);
     void free_child_env(char **tab_command, sh_data_t sh_data, char **tab);
     char *my_str_cut(char *str, int nb, int start_or_end);
     char *replace_tab_with_space(char *str);
@@ -70,7 +70,8 @@
     char *add_char(char *command, int c, int *index);
     char *sup_char(char *commande, int *index);
     char *get_command(char *const prompt_char);
-    void display_history(char *path_history);
+    int display_history(char *path_history, sh_data_t *data);
     int check_exit(char *parser);
+    void free_and_close(FILE *fd, char *history, char *time, char *path);
 
 #endif /* !HEADER */

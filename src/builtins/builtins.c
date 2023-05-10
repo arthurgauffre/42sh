@@ -93,5 +93,9 @@ int check_and_launch_mybuiltins(sh_data_t *data)
         return setenv_builtin(data);
     if (my_strcmp(data->tab_parser[0], "env") == 0)
         return env_builtin(data);
+    if (my_strcmp(data->tab_parser[0], "!") == 0) {
+        display_history(data->pwd, data);
+        return OK;
+    }
     return 2;
 }

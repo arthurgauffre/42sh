@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
+#include "struct.h"
 #include "header.h"
 
 static int react_whether_back_slash(char* parser, int i)
@@ -91,7 +92,7 @@ static int counter_fonc(char const *parser)
     return counter;
 }
 
-char *backslash_check_count(char *parser)
+char *backslash_check_count(char *parser, sh_data_t *data)
 {
     int counter = 0;
     char *temp_parser = NULL;
@@ -99,7 +100,9 @@ char *backslash_check_count(char *parser)
     if ((temp_parser = backslash_check_end(parser)) != NULL) {
         counter = counter_fonc(temp_parser);
         new_parser = backslash_check(temp_parser, counter);
+        history(new_parser, data->pwd);
     } else {
+        history(parser, data->pwd);
         counter = counter_fonc(parser);
         new_parser = backslash_check(parser, counter);
     }

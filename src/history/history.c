@@ -74,22 +74,24 @@ history_t *set_history_list(char **history_array, char *input)
 
 int history(char *input, char *history_path)
 {
+    if (my_strcmp(input, "\n") == 0)
+        return 0;
     char *path = get_path_history(history_path);
     char *history = load_file_in_mem(path);
     FILE *fd = fopen(path, "w+");
     char *time = get_time();
     history_t *history_list = NULL;
-    if (history != NULL) {
+    if (history == NULL)
+        fprintf(fd, "%6d\t%5s\t%s\n", 1, time, input);
+    else if (strcmp(history, "\0") == 0)
+        fprintf(fd, "%6d\t%5s\t%s\n", 1, time, input);
+    else {
         char **history_array = my_str_to_word_array(history, '\n');
         history_list = set_history_list(history_array, input);
         print_list(history_list, input, fd);
         free_list(history_list);
         free_tab(history_array);
-    } else
-        fprintf(fd, "%6d\t%5s\t%s\n", 1, time, input);
-    fclose(fd);
-    free(history);
-    free(time);
-    free(path);
+    }
+    free_and_close(fd, history, time, path);
     return 0;
 }

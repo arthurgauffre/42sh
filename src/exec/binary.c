@@ -11,6 +11,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+#include <errno.h>
 #include "struct.h"
 #include "header.h"
 #include "my.h"
@@ -34,6 +35,13 @@ static int child_exec(sh_data_t *data)
     char **path = my_str_to_word_array(
     get_inside_var_env(*data->env, "PATH="), ':');
     execve(data->tab_parser[0], data->tab_parser, *data->env);
+    if (errno == 8) {
+        fprintf(stderr, "%s: %s: cannot execute binary file\n", data->parser,
+        data->parser);
+        free_tab(path);
+        free_data(*data);
+        exit(126);
+    }
     for (int i = 0; path[i] != NULL; i++) {
         exec_with_path(data->tab_parser, *data->env, path[i]);
     }

@@ -22,7 +22,7 @@ int print_list(history_t *head, char *input, FILE *fd)
             temp->data.command);
         }
     }
-    fprintf(fd, "%6d\t%5s\t%s\n", temp->prev->data.nbr + 1, temp->data.time,
+    fprintf(fd, "%6d\t%5s\t%s", temp->prev->data.nbr + 1, temp->data.time,
     temp->data.command);
     return 0;
 }
