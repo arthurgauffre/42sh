@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <string.h>
 #include "header.h"
 #include "struct.h"
 #include "my.h"
@@ -29,13 +30,13 @@ static char *add_str_to_end_str(char *str, char *str_read, int nb_copy)
     if (str_tmp == NULL)
         return NULL;
     str_tmp[0] = '\0';
-    str_tmp = my_strcat(str_tmp, str);
+    str_tmp = strcat(str_tmp, str);
     free(str);
     str = malloc(sizeof(char) * (len + nb_copy + 1));
     if (str == NULL)
         return NULL;
     str[0] = '\0';
-    str = my_strcat(str, str_tmp);
+    str = strcat(str, str_tmp);
     str = add_str_read_in_end_str(str, str_read, nb_copy, len);
     str[len + nb_copy] = '\0';
     free(str_tmp);
