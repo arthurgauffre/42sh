@@ -40,7 +40,7 @@
     int bad_redirection(char *str);
     void print_prompt(char const *prompt_str);
     char *read_terminal(sh_data_t *data, char const *prompt);
-    char *backslash_check_count(char *parser, sh_data_t *data);
+    char *backslash_check_count(char *parser);
     void free_child_env(char **tab_command, sh_data_t sh_data, char **tab);
     char *my_str_cut(char *str, int nb, int start_or_end);
     char *replace_tab_with_space(char *str);
