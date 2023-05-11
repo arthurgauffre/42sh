@@ -36,7 +36,7 @@ static int child_exec(sh_data_t *data)
     get_inside_var_env(*data->env, "PATH="), ':');
     execve(data->tab_parser[0], data->tab_parser, *data->env);
     if (errno == 8) {
-        fprintf(stderr, "%s: %s: cannot execute binary file\n", data->parser,
+        fprintf(stderr, "%s: Exec format error. Wrong Architecture.\n",
         data->parser);
         free_tab(path);
         free_data(*data);
