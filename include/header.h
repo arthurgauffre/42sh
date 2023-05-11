@@ -15,6 +15,7 @@
     #define HEADER
     #define OK 0
     #define KO 84
+    int my_strcmp(char const *s1, char const *s2);
     int globing(sh_data_t *data);
     sh_data_t *init_pipe_data(sh_data_t *data, char **tab);
     void free_data(sh_data_t sh_data);

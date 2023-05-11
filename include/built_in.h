@@ -19,7 +19,8 @@
         {flag : "env", tab : &env_builtin},
         {flag : "setenv", tab : &setenv_builtin},
         {flag : "unsetenv", tab : &unsetenv_builtin},
-        {flag : "!", tab : &display_history}
+        {flag : "!", tab : &display_history},
+        {flag : "echo", tab : &do_echo},
     };
-    #define nb_builtin 5
+    #define nb_builtin 6
 #endif /* FLAGS_H_ */
