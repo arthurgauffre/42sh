@@ -86,5 +86,6 @@
     int nb_chevron_left(char *str);
     int nb_chevron_right(char *str);
     char *double_left_redirect_input(char *ending_input);
+    int do_echo(sh_data_t *data);
 
 #endif /* !HEADER */
