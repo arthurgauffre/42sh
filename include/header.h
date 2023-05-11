@@ -70,7 +70,7 @@
     sh_data_t init_data(char ***env);
     char *add_char(char *command, int c, int *index);
     char *sup_char(char *commande, int *index);
-    char *get_command(char *const prompt_char, sh_data_t *data);
+    char *get_command(char const *prompt_char, sh_data_t *data);
     int display_history(char *path_history, sh_data_t *data);
     int check_exit(char *parser);
     void free_and_close(FILE *fd, char *history, char *time, char *path);
