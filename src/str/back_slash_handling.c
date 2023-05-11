@@ -56,25 +56,6 @@ static char *backslash_check(char *parser, int counter)
     return new_parser;
 }
 
-static char *backslash_check_end(char *parser, sh_data_t *data)
-{
-    char *new_parser = NULL;
-    char *final_parser = NULL;
-    if (parser[strlen(parser) - 1] == '\\') {
-        new_parser = read_terminal(data, "? ");
-        parser[strcspn(parser, "\n")] = ' ';
-        final_parser = malloc(sizeof(char) * (strlen(parser) + \
-strlen(new_parser) + 1));
-        memset(final_parser, '\0', strlen(parser) + strlen(new_parser) + 1);
-        strcat(final_parser, parser);
-        strcat(final_parser, new_parser);
-        free(new_parser);
-        return final_parser;
-    } else {
-        return NULL;
-    }
-}
-
 static int counter_fonc(char const *parser)
 {
     int counter = 0;
@@ -87,17 +68,11 @@ static int counter_fonc(char const *parser)
     return counter;
 }
 
-char *backslash_check_count(char *parser, sh_data_t *data)
+char *backslash_check_count(char *parser)
 {
     int counter = 0;
-    char *temp_parser = NULL;
     char *new_parser = NULL;
-    if ((temp_parser = backslash_check_end(parser, data)) != NULL) {
-        counter = counter_fonc(temp_parser);
-        new_parser = backslash_check(temp_parser, counter);
-    } else {
         counter = counter_fonc(parser);
         new_parser = backslash_check(parser, counter);
-    }
     return new_parser;
 }
