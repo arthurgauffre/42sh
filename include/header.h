@@ -9,12 +9,13 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "struct.h"
-
 #ifndef HEADER
     #define HEADER
     #define OK 0
     #define KO 84
+    int check_error(char *dest);
     int my_strcmp(char const *s1, char const *s2);
     int globing(sh_data_t *data);
     sh_data_t *init_pipe_data(sh_data_t *data, char **tab);

@@ -60,7 +60,6 @@ static char *backslash_check_end(char *parser, sh_data_t *data)
 {
     char *new_parser = NULL;
     char *final_parser = NULL;
-    size_t len = 0;
     if (parser[strlen(parser) - 1] == '\\') {
         new_parser = read_terminal(data, "? ");
         parser[strcspn(parser, "\n")] = ' ';
@@ -69,7 +68,6 @@ strlen(new_parser) + 1));
         memset(final_parser, '\0', strlen(parser) + strlen(new_parser) + 1);
         strcat(final_parser, parser);
         strcat(final_parser, new_parser);
-        free(parser);
         free(new_parser);
         return final_parser;
     } else {

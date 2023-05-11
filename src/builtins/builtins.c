@@ -60,10 +60,10 @@ int env_builtin(sh_data_t *data)
 
 int setenv_builtin(sh_data_t *data)
 {
+    if (data->nb_actual_command != data->nb_commands - 1)
+        return 0;
     if (my_tablen(data->tab_parser) == 1)
         return env_builtin(data);
-    if (data->nb_commands != 1)
-        return 2;
     if (my_tablen(data->tab_parser) > 3) {
         my_puterror("setenv: Too many arguments.\n");
         return 1;

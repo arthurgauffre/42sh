@@ -36,8 +36,7 @@ int cd_with_file(char **tab, char ***env)
         *env = modif_var_env(*env, "PWD=", pwd);
         free(pwd);
     } else {
-        my_puterror(tab[1]);
-        my_puterror(": No such file or directory.\n");
+        check_error(tab[1]);
         return 1;
     }
     return 0;
@@ -59,8 +58,7 @@ int cd_tild_slash(char **tab, char ***env)
         free(pwd);
         free(str);
     } else {
-        my_puterror(str);
-        my_puterror(": No such file or directory.\n");
+        check_error(str);
         free(str);
         return 1;
     }
@@ -71,7 +69,10 @@ int cd_tild(char ***env)
 {
     if (get_inside_var_env(*env, "OLDPWD=") == NULL)
         add_var_env_with_no_value((char *[]){"false", "OLDPWD", NULL}, env);
-    chdir(get_inside_var_env(*env, "HOME="));
+    if (chdir(get_inside_var_env(*env, "HOME=")) == -1) {
+        check_error(get_inside_var_env(*env, "HOME="));
+    }
+    ;
     char *pwd = get_pwd();
     *env = modif_var_env(*env, "OLDPWD=", get_inside_var_env(*env, "PWD="));
     *env = modif_var_env(*env, "PWD=", pwd);
@@ -81,6 +82,8 @@ int cd_tild(char ***env)
 
 int cd_builtin(sh_data_t *data)
 {
+    if (data->nb_actual_command != data->nb_commands - 1)
+        return 0;
     if (cd_error_and_cd_home(data) == 1)
         return 1;
     if (my_tablen(data->tab_parser) == 1 ||

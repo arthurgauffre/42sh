@@ -57,6 +57,7 @@ SRC		=	builtins/builtins.c		\
 			str/get_text.c							\
 			str/globing.c							\
 			builtins/do_echo.c						\
+			builtins/error.c						\
 			main.c
 
 DIR_SRC 	= 	$(addprefix src/, $(SRC))
