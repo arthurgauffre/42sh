@@ -60,7 +60,6 @@ static char *backslash_check_end(char *parser, sh_data_t *data)
 {
     char *new_parser = NULL;
     char *final_parser = NULL;
-    size_t len = 0;
     if (parser[strlen(parser) - 1] == '\\') {
         new_parser = read_terminal(data, "? ");
         parser[strcspn(parser, "\n")] = ' ';
