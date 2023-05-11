@@ -19,6 +19,7 @@
     void free_data(sh_data_t sh_data);
     void pipes_connexion(sh_data_t data);
     int loop_and(sh_data_t *data);
+    int loop_or(sh_data_t *data);
     int loop_pipe(sh_data_t *data);
     int all_space_or_tab(char *str);
     void free_tab(char **tab);

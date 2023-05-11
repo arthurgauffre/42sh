@@ -90,7 +90,7 @@ int check_and_launch_command(sh_data_t *data)
 {
     data->old_parser = data->parser;
     if (all_space_or_tab(data->command) == 1) {
-        return loop_and(data);
+        return loop_or(data);
     }
     return data->return_value;
 }
