@@ -56,33 +56,33 @@ static int child_exec(sh_data_t *data)
 void put_stdout_in_file(redirection_t redirection)
 {
     char *str = NULL;
-    str = load_fd_in_str(redirection.pipe_redirection[0]);
-    if (redirection.simple_redirection == 1)
+    str = load_fd_in_str(redirection.pipe_redirection_right[0]);
+    if (redirection.simple_redirection_right == 1)
         redirection.fd_open = open(redirection.filename, O_CREAT | O_WRONLY |
         O_TRUNC, S_IRWXU);
-    if (redirection.double_redirection == 1)
+    if (redirection.double_redirection_right == 1)
         redirection.fd_open = open(redirection.filename, O_CREAT | O_WRONLY |
         O_APPEND, S_IRWXU);
     write(redirection.fd_open, str, my_strlen(str));
     free(redirection.filename);
-    free(redirection.pipe_redirection);
+    free(redirection.pipe_redirection_right);
     free(str);
 }
 
-static int parent_exec(pid_t pid, int wstatus, sh_data_t sh_data)
+static int parent_exec(pid_t pid, int wstatus, sh_data_t data)
 {
-    if (sh_data.nb_actual_command > 0) {
-        close(sh_data.pipes[sh_data.nb_actual_command - 1][0]);
-        close(sh_data.pipes[sh_data.nb_actual_command - 1][1]);
+    if (data.nb_actual_command > 0) {
+        close(data.pipes[data.nb_actual_command - 1][0]);
+        close(data.pipes[data.nb_actual_command - 1][1]);
     }
-    if (sh_data.nb_commands < 1 || sh_data.nb_actual_command ==
-    sh_data.nb_commands - 1)
+    if (data.nb_commands < 1 || data.nb_actual_command ==
+    data.nb_commands - 1)
         waitpid(pid, &wstatus, WUNTRACED);
     else
         waitpid(pid, &wstatus, WNOHANG | WUNTRACED);
-    if ((sh_data.nb_actual_command == sh_data.nb_commands - 1) &&
-    (sh_data.redirection.filename != NULL))
-        put_stdout_in_file(sh_data.redirection);
+    if ((data.nb_actual_command == data.nb_commands - 1) &&
+    (data.redirection.filename != NULL))
+        put_stdout_in_file(data.redirection);
     display_exec_error(wstatus);
     return WEXITSTATUS(wstatus) + WTERMSIG(wstatus) + WCOREDUMP(wstatus);
 }
@@ -94,7 +94,7 @@ int check_and_launch_binary(sh_data_t *data)
         return 84;
     if ((data->nb_actual_command == data->nb_commands - 1) &&
     (data->redirection.filename != NULL))
-        pipe(data->redirection.pipe_redirection);
+        pipe(data->redirection.pipe_redirection_right);
     if (data->nb_actual_command < data->nb_commands - 1)
         pipe(data->pipes[data->nb_actual_command]);
     pid_t pid = fork();

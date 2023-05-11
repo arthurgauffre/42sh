@@ -19,6 +19,8 @@ SRC		=	builtins/builtins.c		\
 			exec/loop_separators.c	\
 			exec/null_command.c		\
 			exec/bad_redirection.c	\
+			exec/init_redirection.c	\
+			exec/nb_chevron.c	\
 			shell/shell.c			\
 			shell/echo.c			\
 			shell/mysh.c			\

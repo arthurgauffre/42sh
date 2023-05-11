@@ -11,7 +11,7 @@
 int bad_redirection(char *str)
 {
     char **tab = my_str_to_word_array(str, '>');
-    if (nb_chevron(str) >= 2 && my_tablen(tab) > 2) {
+    if (nb_chevron_right(str) >= 2 && my_tablen(tab) > 2) {
         free_tab(tab);
         return 1;
     }
