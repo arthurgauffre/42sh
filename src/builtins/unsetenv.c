@@ -25,6 +25,8 @@ int delete_var_env(char **tab, char ***env, int i, int j)
 
 int unsetenv_builtin(sh_data_t *data)
 {
+    if (data->nb_actual_command != data->nb_commands - 1)
+        return 1;
     if (my_tablen(data->tab_parser) == 1) {
         my_putstr("unsetenv: Too few arguments.\n");
         return 1;

@@ -68,10 +68,8 @@ strlen(new_parser) + 1);
         memset(final_parser, '\0', strlen(parser) + strlen(new_parser) + 1);
         strcat(final_parser, parser);
         strcat(final_parser, new_parser);
-        free(parser);
         free(new_parser);
         return final_parser;
-        return parser;
     } else {
         return NULL;
     }
