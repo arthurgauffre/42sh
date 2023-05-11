@@ -23,15 +23,15 @@ int delete_var_env(char **tab, char ***env, int i, int j)
     return 0;
 }
 
-int unsetenv_builtin(char **tab, char ***env)
+int unsetenv_builtin(sh_data_t *data)
 {
-    if (my_tablen(tab) == 1) {
+    if (my_tablen(data->tab_parser) == 1) {
         my_putstr("unsetenv: Too few arguments.\n");
         return 1;
     }
-    for (int i = 1; tab[i] != NULL; i++) {
-        for (int j = 0; (*env)[j]; j++) {
-            delete_var_env(tab, env , i, j);
+    for (int i = 1; data->tab_parser[i] != NULL; i++) {
+        for (int j = 0; (*data->env)[j]; j++) {
+            delete_var_env(data->tab_parser, data->env , i, j);
         }
     }
     return 1;

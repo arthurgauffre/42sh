@@ -48,7 +48,7 @@
     char *get_new_var_env_value(char *old_var_env, char *var_env,
     char *new_var_env_value);
     int cd_builtin(sh_data_t *data);
-    int unsetenv_builtin(char **tab, char ***env);
+    int unsetenv_builtin(sh_data_t *data);
     int add_var_env_with_value(char **tab, char ***env);
     int add_var_env_with_no_value(char **tab, char ***env);
     int my_str_isalphanum(char const *str);
@@ -72,11 +72,14 @@
     char *add_char(char *command, int c, int *index);
     char *sup_char(char *commande, int *index);
     char *get_command(char const *prompt_char, sh_data_t *data);
-    int display_history(char *path_history, sh_data_t *data);
+    int display_history(sh_data_t *data);
     int check_exit(char *parser);
     void free_and_close(FILE *fd, char *history, char *time, char *path);
     int cd_dash(sh_data_t *data);
     int slash_in_str(char *str);
     char *my_realloc(char *str, int size);
+    int env_builtin(sh_data_t *data);
+    int setenv_builtin(sh_data_t *data);
+
 
 #endif /* !HEADER */

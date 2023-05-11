@@ -10,6 +10,7 @@
 #include <sys/wait.h>
 #include "header.h"
 #include "my.h"
+#include "built_in.h"
 
 static int env_child_exec(sh_data_t *data)
 {
@@ -83,19 +84,10 @@ int check_and_launch_mybuiltins(sh_data_t *data)
 {
     if (data->tab_parser == NULL)
         return 2;
-    if (data->nb_commands == 1 &&
-    my_strcmp(data->tab_parser[0], "cd") == 0)
-        return cd_builtin(data);
-    if (data->nb_commands == 1 &&
-    my_strcmp(data->tab_parser[0], "unsetenv") == 0)
-        return unsetenv_builtin(data->tab_parser, data->env);
-    if (my_strcmp(data->tab_parser[0], "setenv") == 0)
-        return setenv_builtin(data);
-    if (my_strcmp(data->tab_parser[0], "env") == 0)
-        return env_builtin(data);
-    if (my_strcmp(data->tab_parser[0], "!") == 0) {
-        display_history(data->pwd, data);
-        return OK;
+    for (int i = 0; i < nb_builtin; i++) {
+        if (my_strcmp(data->tab_parser[0], FUNCTION_TAB[i].flag) == 0) {
+            return FUNCTION_TAB[i].tab(data);
+        }
     }
     return 2;
 }

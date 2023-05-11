@@ -35,7 +35,7 @@ int display_history_child(char *path_history, sh_data_t *data)
     exit(0);
 }
 
-int display_history(char *path_history, sh_data_t *data)
+int display_history(sh_data_t *data)
 {
     if (data->tab_parser == NULL)
         return 84;
@@ -45,6 +45,6 @@ int display_history(char *path_history, sh_data_t *data)
     if (pid < 0)
         return KO;
     if (pid == 0)
-        return display_history_child(path_history, data);
+        return display_history_child(data->pwd, data);
     return OK;
 }
