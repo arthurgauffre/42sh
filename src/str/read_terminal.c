@@ -30,6 +30,7 @@ char *read_terminal(sh_data_t *data, char const *prompt)
         line = get_command(prompt, data);
     } else if (getline(&line, &len, stdin) == -1)
         return NULL;
+    history(line, data->pwd);
     line = backslash_check_count(line, data);
     return line;
 }
