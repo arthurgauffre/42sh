@@ -83,7 +83,7 @@ int cd_tild(char ***env)
 int cd_builtin(sh_data_t *data)
 {
     if (data->nb_actual_command != data->nb_commands - 1)
-        return 1;
+        return 0;
     if (cd_error_and_cd_home(data) == 1)
         return 1;
     if (my_tablen(data->tab_parser) == 1 ||

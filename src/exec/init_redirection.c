@@ -93,6 +93,7 @@ char *init_redirection(char *parser, sh_data_t *data)
     if (data->redirection.double_redirection_left == 1) {
         data->redirection.str_double_redirection =
         double_left_redirect_input(data->redirection.filename_or_ending_input);
+        printf("OK\n");
         fd = open(".my_left_double_redirection", O_CREAT | O_WRONLY | O_TRUNC,
         S_IRWXU);
         write(fd, data->redirection.str_double_redirection,
