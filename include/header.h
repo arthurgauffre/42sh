@@ -8,13 +8,14 @@
 #include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "struct.h"
 
 #ifndef HEADER
     #define HEADER
     #define OK 0
     #define KO 84
-
+    int globing(sh_data_t *data);
     sh_data_t *init_pipe_data(sh_data_t *data, char **tab);
     void free_data(sh_data_t sh_data);
     void pipes_connexion(sh_data_t data);

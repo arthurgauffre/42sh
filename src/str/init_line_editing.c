@@ -13,10 +13,11 @@
 #include <stdlib.h>
 int my_tab_len(char **tab);
 
-void init_term(void)
+void init_term(struct termios *termio)
 {
     struct termios term;
     tcgetattr(0, &term);
+    *termio = term;
     term.c_lflag &= ~(ICANON | ECHO);
     tcsetattr(0, TCSANOW, &term);
 }

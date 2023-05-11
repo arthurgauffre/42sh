@@ -78,8 +78,7 @@ int loop_pipe(sh_data_t *data)
         data->tab_pipe[i] = init_redirection(data->tab_pipe[i], data);
         data->tab_parser = my_str_to_word_array(data->tab_pipe[i], ' ');
         data->nb_actual_command = i;
-        if ((data->return_value = check_and_launch_mybuiltins(data)) == 2)
-            data->return_value = check_and_launch_binary(data);
+        globing(data);
         free_tab(data->tab_parser);
     }
     free_int_tab(data->pipes);

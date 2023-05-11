@@ -19,7 +19,7 @@ char **add_str(char **tab, char *new_var);
 char **get_text(sh_data_t *data);
 char *my_strdup(char const *src);
 void free_tab(char **tab);
-void init_term(void);
+void init_term(struct termios *termio);
 int *init_index(char **history);
 
 char *sup_char(char *command, int *index)
@@ -95,23 +95,23 @@ char *command_null(void)
 
 char *get_command(char const *prompt_char, sh_data_t *data)
 {
+    struct termios term;
     char *command = NULL;
     char **history = get_text(data);
     char c;
     int *index = init_index(history);
-    init_term();
+    init_term(&term);
     history = add_str(history, NULL);
     while (read(0, &c, 1) > 0 && c != 10) {
-        if (c == 4)
-            return NULL;
+        if (c == 4)return NULL;
         history[index[2]] = get_ch(c, history[index[2]], index, history);
         print_line(history[index[2]], index, prompt_char);
         fflush(stdout);
     }
-    if (history[index[2]] == NULL)
-        history[index[2]] = command_null();
+    if (history[index[2]] == NULL)history[index[2]] = command_null();
     printf("\n");
     command = my_strdup(history[index[2]]);
+    tcsetattr(0, TCSANOW, &term);
     free(index);
     free_tab(history);
     return command;

@@ -53,6 +53,7 @@ SRC		=	builtins/builtins.c		\
 			str/tab_handeling.c						\
 			str/init_line_editing.c					\
 			str/get_text.c							\
+			str/globing.c							\
 			main.c
 
 DIR_SRC 	= 	$(addprefix src/, $(SRC))
