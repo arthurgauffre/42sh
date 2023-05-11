@@ -91,10 +91,10 @@ char *init_redirection(char *parser, sh_data_t *data)
     parser = init_redirection_left(&data->redirection, parser);
     parser = init_redirection_right(&data->redirection, parser);
     if (data->redirection.double_redirection_left == 1) {
-        fd = open("my_left_double_redirection", O_CREAT | O_WRONLY | O_TRUNC,
-        S_IRWXU);
         data->redirection.str_double_redirection =
         double_left_redirect_input(data->redirection.filename_or_ending_input);
+        fd = open(".my_left_double_redirection", O_CREAT | O_WRONLY | O_TRUNC,
+        S_IRWXU);
         write(fd, data->redirection.str_double_redirection,
         my_strlen(data->redirection.str_double_redirection));
         free(data->redirection.str_double_redirection);

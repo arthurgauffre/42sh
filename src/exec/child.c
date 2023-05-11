@@ -24,9 +24,10 @@ static void redirection_connection(sh_data_t data)
     if ((data.nb_actual_command == data.nb_commands - 1) &&
     (data.redirection.double_redirection_left == 1)) {
         pipe(data.redirection.pipe_redirection_left);
-        fd = open("my_left_double_redirection", O_RDONLY);
+        fd = open(".my_left_double_redirection", O_RDONLY);
         dup2(fd, STDIN_FILENO);
         close(fd);
+        remove(".my_left_double_redirection");
     }
 }
 
