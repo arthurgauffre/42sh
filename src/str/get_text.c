@@ -27,6 +27,7 @@ char **add_line(char *line, ssize_t linesize, char **text, char *new_line)
         new_line[linesize] = '\0';
         text = add_str(text, new_line);
     }
+    free(new_line);
     return text;
 }
 
@@ -46,5 +47,6 @@ char **get_text(sh_data_t *data)
     }
     free(history_path);
     fclose(file);
+    free(line);
     return text;
 }
