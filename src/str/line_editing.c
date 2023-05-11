@@ -69,7 +69,7 @@ char *add_char(char *command, int c, int *index)
 int print_line(char *command, int *index, char const *prompt_char)
 {
     printf("\r");
-    for (int i = 0; i < index[1] + 3; i++)
+    for (int i = 0; i < index[1] + (int)strlen(prompt_char); i++)
         printf(" ");
     printf("\r");
     printf("%s", prompt_char);
@@ -78,7 +78,7 @@ int print_line(char *command, int *index, char const *prompt_char)
     printf("\r");
     if (index[0] == -2)
         index[0]++;
-    for (int i = 0; i < index[0] + 4; i++)
+    for (int i = 0; i < index[0] +  strlen(prompt_char) + 1; i++)
         printf("\033[C");
     return 0;
 }
