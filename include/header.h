@@ -32,6 +32,7 @@
     int nb_chevron(char *str);
     char *load_fd_in_str(int fd);
     int mysh(char **my_env);
+    int exit_shell(sh_data_t data);
     int start_shell(char ***env);
     char **my_envcpy(char **env);
     int bad_redirection(char *str);
@@ -49,6 +50,7 @@
     char *new_var_env_value);
     int cd_builtin(sh_data_t *data);
     int unsetenv_builtin(sh_data_t *data);
+    char *init_redirection(char *parser, sh_data_t *data);
     int add_var_env_with_value(char **tab, char ***env);
     int add_var_env_with_no_value(char **tab, char ***env);
     int my_str_isalphanum(char const *str);
@@ -80,6 +82,8 @@
     char *my_realloc(char *str, int size);
     int env_builtin(sh_data_t *data);
     int setenv_builtin(sh_data_t *data);
-
+    int nb_chevron_left(char *str);
+    int nb_chevron_right(char *str);
+    char *double_left_redirect_input(char *ending_input);
 
 #endif /* !HEADER */

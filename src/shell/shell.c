@@ -14,9 +14,8 @@
 #include "header.h"
 #include "my.h"
 
-static int exit_shell(sh_data_t data)
+int exit_shell(sh_data_t data)
 {
-    free(data.parser);
     if (!is_echo())
         my_putstr("exit\n");
     return data.return_value;
@@ -59,7 +58,8 @@ int start_shell(char ***env)
             return exit_shell(data);
         if (data.parser[my_strlen(data.parser) - 1] == '\n')
             data.parser = my_str_cut(data.parser, 1, 1);
-        if ((data.null_command = is_null_command(data.parser)) != 0)
+        if (all_space_or_tab(data.parser) == 1 &&
+        (data.null_command = is_null_command(data.parser)) != 0)
             data.null_command =
             invalid_null_function(data.parser, data.null_command);
         else

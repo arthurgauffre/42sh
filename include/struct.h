@@ -11,10 +11,15 @@
 
     typedef struct redirection_s {
         int fd_open;
-        int *pipe_redirection;
+        int *pipe_redirection_right;
+        int *pipe_redirection_left;
         char *filename;
-        int simple_redirection;
-        int double_redirection;
+        char *filename_or_ending_input;
+        char *str_double_redirection;
+        int simple_redirection_right;
+        int double_redirection_right;
+        int simple_redirection_left;
+        int double_redirection_left;
     } redirection_t;
 
     typedef struct sh_data_s {

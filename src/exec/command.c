@@ -31,39 +31,6 @@ void pipes_connexion(sh_data_t sh_data)
     }
 }
 
-int nb_chevron(char *str)
-{
-    int nb_chevron = 0;
-    for (int i = 0; str[i] != '\0'; i++) {
-        if (str[i] == '>')
-            nb_chevron++;
-    }
-    return nb_chevron;
-}
-
-static char *init_redirection(char *parser, sh_data_t *data)
-{
-    char **tab = NULL;
-    char **tab_file;
-    data->redirection.filename = NULL;
-    data->redirection.simple_redirection = 0;
-    tab = my_str_to_word_array(parser, '>');
-    if (my_tablen(tab) > 1) {
-        tab_file = my_str_to_word_array(tab[1], ' ');
-        data->redirection.filename = my_strdup(tab_file[0]);
-        if (nb_chevron(parser) == 1)
-            data->redirection.simple_redirection = 1;
-        else
-            data->redirection.double_redirection = 1;
-        data->redirection.pipe_redirection = malloc(sizeof(int) * 2);
-        free(parser);
-        parser = my_strdup(tab[0]);
-        free_tab(tab_file);
-    }
-    free_tab(tab);
-    return parser;
-}
-
 int loop_pipe(sh_data_t *data)
 {
     for (int i = 0; i < data->nb_commands - 1; i++)
@@ -73,7 +40,7 @@ int loop_pipe(sh_data_t *data)
             data->exit_shell = 0;
             free_int_tab(data->pipes);
             free(data->pwd);
-            return data->return_value;
+            return exit_shell(*data);
         }
         data->tab_pipe[i] = init_redirection(data->tab_pipe[i], data);
         data->tab_parser = my_str_to_word_array(data->tab_pipe[i], ' ');
