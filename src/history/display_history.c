@@ -28,7 +28,8 @@ int display_history_child(char *path_history, sh_data_t *data)
         pipes_connexion(*data);
     char *path = get_path_history(path_history);
     char *history = load_file_in_mem(path);
-    printf("\n%s\n", history);
+    write(1, history, strlen(history));
+    write(1, "\n", 1);
     free(history);
     free(path);
     free_data(*data);
@@ -37,6 +38,7 @@ int display_history_child(char *path_history, sh_data_t *data)
 
 int display_history(sh_data_t *data)
 {
+    int wstatus = 0;
     if (data->tab_parser == NULL)
         return 84;
     if (data->nb_actual_command < data->nb_commands - 1)
@@ -46,5 +48,10 @@ int display_history(sh_data_t *data)
         return KO;
     if (pid == 0)
         return display_history_child(data->pwd, data);
-    return OK;
+    if (data->nb_actual_command > 0) {
+        close(data->pipes[data->nb_actual_command - 1][0]);
+        close(data->pipes[data->nb_actual_command - 1][1]);
+    }
+    waitpid(pid, &wstatus, 0);
+    return WEXITSTATUS(wstatus);
 }
